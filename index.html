@@ -524,7 +524,7 @@ function App(){
   const NavBar=()=>(
     <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:440,background:"#fff",borderTop:"1px solid #F0F0F0",display:"flex",zIndex:100}}>
       {[{key:"home",icon:"🏠",label:"홈"},{key:"search",icon:"🔍",label:"검색"},{key:"favs",icon:"❤️",label:`즐겨찾기${favs.length>0?` (${favs.length})`:""}`},{key:"admin",icon:"⚙️",label:"관리자"}].map(n=>(
-        <button key={n.key} onClick={()=>{setTab(n.key);if(n.key==="search")setTimeout(()=>searchRef.current?.focus(),100);}}
+        <button key={n.key} onClick={()=>{setTab(n.key);if(n.key==="home"){setCat(null);setDish(null);setRecipe(null);setStep(null);}if(n.key==="search")setTimeout(()=>searchRef.current?.focus(),100);}}
           style={{flex:1,border:"none",background:"none",padding:"10px 0 12px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
           <span style={{fontSize:18}}>{n.icon}</span>
           <span style={{fontSize:9,fontWeight:tab===n.key?700:400,color:tab===n.key?accent:"#AAA"}}>{n.label}</span>
