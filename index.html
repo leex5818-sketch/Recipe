@@ -42,25 +42,54 @@ const sbFetch=(path,opt={})=>fetch(`${SB_URL}/rest/v1/${path}`,{
 
 // ── 번역 함수 ─────────────────────────────────────────────
 const TR_CACHE = {};
+const _TR_SEP = ' |||SEP||| ';
+const _TR_SEPR = /\s*\|\|\|SEP\|\|\|\s*/;
+
+async function _trApi(q, lang) {
+  const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=ko&tl='
+    + encodeURIComponent(lang) + '&dt=t&q=' + encodeURIComponent(q);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('http ' + res.status);
+  const d = await res.json();
+  if (!Array.isArray(d?.[0])) throw new Error('bad response');
+  return d[0].map(x => x?.[0] ?? '').join('');
+}
+
 async function trBatch(texts, lang) {
-  const key = lang + '|' + texts.join('§');
+  const key = lang + '\t' + texts.join('\t');
   if (TR_CACHE[key]) return TR_CACHE[key];
-  const joined = texts.join(' §§ ');
+
+  // 1단계: 전체 배치
   try {
-    const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=ko&tl='
-      + lang + '&dt=t&q=' + encodeURIComponent(joined);
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('http ' + res.status);
-    const d = await res.json();
-    const translated = d[0].map(x => x[0]).join('');
-    const result = translated.split('§§').map(s => s.trim());
-    // 개수가 맞지 않으면 원본 반환
-    if (result.length !== texts.length) return texts;
-    TR_CACHE[key] = result;
-    return result;
-  } catch(e) {
-    return texts;
+    const out = await _trApi(texts.join(_TR_SEP), lang);
+    const parts = out.split(_TR_SEPR).map(s => s.trim());
+    if (parts.length === texts.length) {
+      TR_CACHE[key] = parts;
+      return parts;
+    }
+  } catch {}
+
+  // 2단계: 6개씩 청크로 나눠서 재시도
+  const CHUNK = 6;
+  const result = [];
+  for (let i = 0; i < texts.length; i += CHUNK) {
+    const chunk = texts.slice(i, i + CHUNK);
+    let done = false;
+    try {
+      const out = await _trApi(chunk.join(_TR_SEP), lang);
+      const parts = out.split(_TR_SEPR).map(s => s.trim());
+      if (parts.length === chunk.length) { result.push(...parts); done = true; }
+    } catch {}
+    if (!done) {
+      // 3단계: 하나씩 번역 (최후 수단)
+      for (const t of chunk) {
+        try { result.push(await _trApi(t, lang)); }
+        catch { result.push(t); }
+      }
+    }
   }
+  TR_CACHE[key] = result;
+  return result;
 }
 
 // ── 상수 ─────────────────────────────────────────────────
@@ -287,13 +316,21 @@ function App(){
     const handleTr=async(lang)=>{
       if(trLang===lang){setTrLang(null);setTrData(null);return;}
       setTrLoading(true);setTrLang(lang);setTrData(null);
-      const ingNames=r.ing.map(i=>i.n);
-      const texts=[r.title,...ingNames,...r.steps];
-      const translated=await trBatch(texts,lang);
-      const trTitle=translated[0];
-      const trIng=r.ing.map((i,idx)=>({...i,n:translated[1+idx]}));
-      const trSteps=translated.slice(1+ingNames.length);
-      setTrData({title:trTitle,ing:trIng,steps:trSteps});
+      try{
+        const ingNames=r.ing.map(i=>i.n);
+        const texts=[r.title,...ingNames,...r.steps];
+        const translated=await trBatch(texts,lang);
+        if(translated.length===texts.length){
+          const trTitle=translated[0]||r.title;
+          const trIng=r.ing.map((i,idx)=>({...i,n:translated[1+idx]||i.n}));
+          const trSteps=translated.slice(1+ingNames.length);
+          setTrData({
+            title:trTitle,
+            ing:trIng,
+            steps:trSteps.length===r.steps.length?trSteps:r.steps
+          });
+        }
+      }catch{}
       setTrLoading(false);
     };
     const disp=trData||r;
