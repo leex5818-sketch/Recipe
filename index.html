@@ -41,6 +41,27 @@ const sbFetch=(path,opt={})=>fetch(`${SB_URL}/rest/v1/${path}`,{
 });
 
 // ── 번역 함수 ─────────────────────────────────────────────
+const TR_CACHE = {};
+async function trBatch(texts, lang) {
+  const key = lang + '|' + texts.join('§');
+  if (TR_CACHE[key]) return TR_CACHE[key];
+  const joined = texts.join(' §§ ');
+  try {
+    const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=ko&tl='
+      + lang + '&dt=t&q=' + encodeURIComponent(joined);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('http ' + res.status);
+    const d = await res.json();
+    const translated = d[0].map(x => x[0]).join('');
+    const result = translated.split('§§').map(s => s.trim());
+    // 개수가 맞지 않으면 원본 반환
+    if (result.length !== texts.length) return texts;
+    TR_CACHE[key] = result;
+    return result;
+  } catch(e) {
+    return texts;
+  }
+}
 
 // ── 상수 ─────────────────────────────────────────────────
 const BC={
@@ -259,24 +280,44 @@ function App(){
     const r=activeRecipe;if(!r)return null;
     const rv=ratings[r.id];
     const b=r.badge?BC[r.badge]||{}:{};
+    const [trLang,setTrLang]=React.useState(null);
+    const [trData,setTrData]=React.useState(null);
+    const [trLoading,setTrLoading]=React.useState(false);
+    const LANGS=[{code:'en',label:'English'},{code:'ja',label:'日本語'},{code:'zh-CN',label:'中文'}];
+    const handleTr=async(lang)=>{
+      if(trLang===lang){setTrLang(null);setTrData(null);return;}
+      setTrLoading(true);setTrLang(lang);setTrData(null);
+      const ingNames=r.ing.map(i=>i.n);
+      const texts=[r.title,...ingNames,...r.steps];
+      const translated=await trBatch(texts,lang);
+      const trTitle=translated[0];
+      const trIng=r.ing.map((i,idx)=>({...i,n:translated[1+idx]}));
+      const trSteps=translated.slice(1+ingNames.length);
+      setTrData({title:trTitle,ing:trIng,steps:trSteps});
+      setTrLoading(false);
+    };
+    const disp=trData||r;
     return(
       <div className="fade">
-        {/* 번역 버튼 - Google 번역 링크 */}
-        <div style={{display:"flex",gap:6,marginBottom:14,overflowX:"auto"}}>
-          {[
-            {label:"🇺🇸 English",lang:"en"},
-            {label:"🇯🇵 日本語",lang:"ja"},
-            {label:"🇨🇳 中文",lang:"zh-CN"},
-          ].map(({label,lang:tl})=>{
-            const pageUrl=encodeURIComponent(window.location.href);
-            const googleUrl=`https://translate.google.com/translate?sl=ko&tl=${tl}&u=${pageUrl}`;
-            return(
-              <a key={tl} href={googleUrl} target="_blank" rel="noopener noreferrer"
-                style={{flexShrink:0,padding:"6px 12px",borderRadius:20,border:"1.5px solid #E0E0E0",background:"#fff",color:"#555",fontSize:12,fontWeight:400,cursor:"pointer",whiteSpace:"nowrap",textDecoration:"none",display:"inline-block"}}>
-                {label}
-              </a>
-            );
-          })}
+        {/* 번역 버튼 */}
+        <div style={{display:"flex",gap:6,marginBottom:14,alignItems:"center"}}>
+          <span style={{fontSize:11,color:"#BBB",flexShrink:0}}>번역</span>
+          {LANGS.map(({code,label})=>(
+            <button key={code} onClick={()=>handleTr(code)} disabled={trLoading}
+              style={{flexShrink:0,padding:"5px 12px",borderRadius:20,
+                border:'1.5px solid '+(trLang===code?accent:'#E0E0E0'),
+                background:trLang===code?accent:'#fff',
+                color:trLang===code?'#fff':'#555',
+                fontSize:12,fontWeight:trLang===code?600:400,cursor:"pointer",
+                whiteSpace:"nowrap",transition:"all .15s"}}>
+              {label}
+            </button>
+          ))}
+          {trLoading&&<span style={{fontSize:11,color:"#BBB"}}>번역 중...</span>}
+          {trLang&&!trLoading&&<button onClick={()=>{setTrLang(null);setTrData(null);}}
+            style={{fontSize:11,color:"#AAA",border:"none",background:"none",cursor:"pointer",padding:"0 4px"}}>
+            원문
+          </button>}
         </div>
         <div style={{background:`linear-gradient(135deg,${accent}18 0%,#fff 60%)`,borderRadius:20,padding:"20px",marginBottom:14}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
@@ -285,7 +326,7 @@ function App(){
               {rv?"✏️ 후기 수정":"⭐ 후기 남기기"}
             </button>
           </div>
-          <h2 style={{fontSize:20,fontWeight:800,color:"#111",marginBottom:6}}>{r.title}</h2>
+          <h2 style={{fontSize:20,fontWeight:800,color:"#111",marginBottom:6}}>{disp.title||r.title}</h2>
           <p style={{fontSize:13,color:"#777",marginBottom:rv?16:20,lineHeight:1.6}}>{r.desc}</p>
           {rv&&<div style={{background:"#fff",borderRadius:12,padding:"10px 14px",boxShadow:"0 2px 8px rgba(0,0,0,.06)",marginBottom:16}}><Stars v={rv.star} size={16}/>{rv.note&&<p style={{fontSize:12,color:"#666",marginTop:6,fontStyle:"italic"}}>"{rv.note}"</p>}</div>}
           <div style={{display:"flex"}}>
@@ -304,8 +345,8 @@ function App(){
           <button onClick={()=>openEdit(r,"ingredients",r.ing)} style={{fontSize:11,color:accent,border:`1px solid ${accent}`,borderRadius:12,padding:"3px 10px",background:"#fff",cursor:"pointer"}}>✏️ 수정 제안</button>
         </div>
         <div style={{background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.05)",marginBottom:20}}>
-          {r.ing.map((ing,i)=>(
-            <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"12px 16px",borderBottom:i<r.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
+          {disp.ing.map((ing,i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"12px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
               <span style={{fontSize:14,color:"#333"}}>{ing.n}</span>
               <span style={{fontSize:14,color:accent,fontWeight:700}}>{ing.a}</span>
             </div>
@@ -318,7 +359,7 @@ function App(){
           <button onClick={()=>openEdit(r,"steps",r.steps)} style={{fontSize:11,color:accent,border:`1px solid ${accent}`,borderRadius:12,padding:"3px 10px",background:"#fff",cursor:"pointer"}}>✏️ 수정 제안</button>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
-          {r.steps.map((s,i)=>{
+          {disp.steps.map((s,i)=>{
             const n=i+1;
             return(
               <div key={i} onClick={()=>setStep(step===n?null:n)} style={{background:step===n?accent:"#fff",borderRadius:16,padding:"14px 16px",boxShadow:"0 2px 10px rgba(0,0,0,.06)",cursor:"pointer",transition:"all .2s"}}>
