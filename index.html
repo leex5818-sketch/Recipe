@@ -35,6 +35,17 @@ const SB_URL="https://clidlcwqpddzgjgjznea.supabase.co";
 const SB_KEY="sb_publishable_4Fyvj0W8RGpzTHhwcgnzSA_9tAjFQ-0";
 const ADMIN_PW="sungwon2024"; // 관리자 비밀번호 (나중에 변경 가능)
 
+// ── 쿠팡 파트너스 ─────────────────────────────────────────
+// partners.coupang.com 가입 후 마이페이지에서 af_id 확인하여 입력
+const COUPANG_AF_ID = ""; // 예: "AF1234567"
+const coupangUrl = (keyword) => {
+  const q = encodeURIComponent(keyword);
+  if (COUPANG_AF_ID) {
+    return `https://www.coupang.com/np/search?q=${q}&sourceType=affiliate&affiliate=Y&subId=recipe&clickTracking=Y&af_id=${COUPANG_AF_ID}`;
+  }
+  return `https://www.coupang.com/np/search?q=${q}`;
+};
+
 const sbFetch=(path,opt={})=>fetch(`${SB_URL}/rest/v1/${path}`,{
   headers:{"Content-Type":"application/json","apikey":SB_KEY,"Authorization":`Bearer ${SB_KEY}`,...(opt.headers||{})},
   ...opt
@@ -382,22 +393,20 @@ function App(){
           <button onClick={()=>openEdit(r,"ingredients",r.ing)} style={{fontSize:11,color:accent,border:`1px solid ${accent}`,borderRadius:12,padding:"3px 10px",background:"#fff",cursor:"pointer"}}>✏️ 수정 제안</button>
         </div>
         <div style={{background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.05)",marginBottom:20}}>
-          {disp.ing.map((ing,i)=>(
-            <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
-              <span style={{fontSize:14,color:"#333",flex:1}}>{ing.n}</span>
-              <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
-                <span style={{fontSize:14,color:accent,fontWeight:700}}>{ing.a}</span>
-                <a href={`https://www.coupang.com/np/search?q=${encodeURIComponent(r.ing[i]?.n||ing.n)}`}
-                   target="_blank" rel="noopener noreferrer"
+          {disp.ing.map((ing,i)=>{
+            const origName=r.ing[i]?.n||ing.n;
+            return(
+              <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
+                <a href={coupangUrl(origName)} target="_blank" rel="noopener noreferrer"
                    onClick={e=>e.stopPropagation()}
-                   style={{display:"flex",alignItems:"center",justifyContent:"center",width:26,height:26,borderRadius:8,background:"#FEE9E9",textDecoration:"none",flexShrink:0}}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-                  </svg>
+                   style={{flex:1,textDecoration:"none",display:"flex",alignItems:"center",gap:6,minWidth:0}}>
+                  <span style={{fontSize:14,color:"#222",fontWeight:500}}>{ing.n}</span>
+                  <span style={{fontSize:10,color:"#E74C3C",border:"1px solid #FFCCC9",borderRadius:4,padding:"1px 5px",flexShrink:0,background:"#FFF5F5",whiteSpace:"nowrap"}}>쿠팡</span>
                 </a>
+                <span style={{fontSize:14,color:accent,fontWeight:700,flexShrink:0,marginLeft:8}}>{ing.a}</span>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* 조리 순서 */}
