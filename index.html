@@ -113,16 +113,16 @@ const CAT_GRAD={
   7:'linear-gradient(145deg,#0D6B5E 0%,#27AE60 100%)',
   8:'linear-gradient(145deg,#2C3E50 0%,#4A6FA5 100%)',
 };
-// 검증된 Unsplash 직접 CDN ID (source.unsplash.com 아님 → 리다이렉트 없이 즉시 로딩)
+// 검증된 Unsplash CDN ID (200 OK 직접 확인 완료)
 const CAT_PHOTO={
-  1:'oXULSch338E', // 한식 - 한국 음식 상차림
-  2:'NHEL1M1Cv-A', // 일식 - 라멘
-  3:'pT_xSJPAW-4', // 중식 - 누들 볼
-  4:'I3UQSz13T9A', // 이유식 - 아기 이유식
-  5:'c9jslw1cW2k', // 양식 - 파스타
-  6:'I9nIfi8fJEE', // 분식 - 한국 길거리 음식
-  7:'NFQi_2HUNRI', // 베트남 - 쌀국수
-  8:'Fdi7VNM7uSQ', // 포차 - 한국 음식
+  1:'1661366394743-fe30fe478ef7', // 한식 - 한국 상차림
+  2:'1569718212165-3a8278d5f624', // 일식 - 라멘
+  3:'1585032226651-759b368d7246', // 중식 - 면 요리
+  4:'1600984177310-c86c8f8fa9c7', // 이유식 - 퓨레
+  5:'1597131628347-c769fc631754', // 양식 - 파스타
+  6:'1679581083578-94eae6e8d7a4', // 분식 - 떡볶이류
+  7:'1533787761082-492a5b83e614', // 베트남 - 쌀국수
+  8:'1628532429788-c35922b5e6c1', // 포차 - 야시장
 };
 const LS={
   get:(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}},
@@ -383,9 +383,19 @@ function App(){
         </div>
         <div style={{background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.05)",marginBottom:20}}>
           {disp.ing.map((ing,i)=>(
-            <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"12px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
-              <span style={{fontSize:14,color:"#333"}}>{ing.n}</span>
-              <span style={{fontSize:14,color:accent,fontWeight:700}}>{ing.a}</span>
+            <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
+              <span style={{fontSize:14,color:"#333",flex:1}}>{ing.n}</span>
+              <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+                <span style={{fontSize:14,color:accent,fontWeight:700}}>{ing.a}</span>
+                <a href={`https://www.coupang.com/np/search?q=${encodeURIComponent(r.ing[i]?.n||ing.n)}`}
+                   target="_blank" rel="noopener noreferrer"
+                   onClick={e=>e.stopPropagation()}
+                   style={{display:"flex",alignItems:"center",justifyContent:"center",width:26,height:26,borderRadius:8,background:"#FEE9E9",textDecoration:"none",flexShrink:0}}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+                  </svg>
+                </a>
+              </div>
             </div>
           ))}
         </div>
@@ -464,7 +474,7 @@ function App(){
                 <img
                   src={`https://images.unsplash.com/photo-${CAT_PHOTO[c.id]}?w=320&h=200&fit=crop&auto=format&q=70`}
                   alt={c.name}
-                  loading="lazy"
+                  loading="eager"
                   style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}
                   onError={e=>{e.target.style.display='none';}}
                 />
