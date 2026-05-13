@@ -63,6 +63,17 @@ const CAT_GRAD={
   7:'linear-gradient(145deg,#0D6B5E 0%,#27AE60 100%)',
   8:'linear-gradient(145deg,#2C3E50 0%,#4A6FA5 100%)',
 };
+// 검증된 Unsplash 직접 CDN ID (source.unsplash.com 아님 → 리다이렉트 없이 즉시 로딩)
+const CAT_PHOTO={
+  1:'oXULSch338E', // 한식 - 한국 음식 상차림
+  2:'NHEL1M1Cv-A', // 일식 - 라멘
+  3:'pT_xSJPAW-4', // 중식 - 누들 볼
+  4:'I3UQSz13T9A', // 이유식 - 아기 이유식
+  5:'c9jslw1cW2k', // 양식 - 파스타
+  6:'I9nIfi8fJEE', // 분식 - 한국 길거리 음식
+  7:'NFQi_2HUNRI', // 베트남 - 쌀국수
+  8:'Fdi7VNM7uSQ', // 포차 - 한국 음식
+};
 const LS={
   get:(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}},
   set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
@@ -370,10 +381,20 @@ function App(){
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
           {cats.map(c=>(
             <div key={c.id} onClick={()=>setCat(c.id)}
-              style={{borderRadius:16,cursor:"pointer",background:CAT_GRAD[c.id]||CAT_GRAD[1],height:110,position:"relative",overflow:"hidden",boxShadow:"0 2px 10px rgba(0,0,0,.12)"}}>
-              <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",justifyContent:"flex-end",padding:"12px 14px"}}>
-                <div style={{fontSize:15,fontWeight:700,color:"#fff",letterSpacing:-.3}}>{c.name}</div>
-                <div style={{fontSize:10,color:"rgba(255,255,255,.65)",marginTop:2}}>{(dishes[c.id]||[]).length}가지 요리</div>
+              style={{borderRadius:16,cursor:"pointer",background:CAT_GRAD[c.id]||CAT_GRAD[1],height:120,position:"relative",overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.12)"}}>
+              {CAT_PHOTO[c.id]&&(
+                <img
+                  src={`https://images.unsplash.com/photo-${CAT_PHOTO[c.id]}?w=320&h=200&fit=crop&auto=format&q=70`}
+                  alt={c.name}
+                  loading="lazy"
+                  style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}
+                  onError={e=>{e.target.style.display='none';}}
+                />
+              )}
+              <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 15%,rgba(0,0,0,.7))"}}/>
+              <div style={{position:"absolute",bottom:0,left:0,right:0,padding:"10px 13px"}}>
+                <div style={{fontSize:14,fontWeight:700,color:"#fff",letterSpacing:-.3}}>{c.name}</div>
+                <div style={{fontSize:10,color:"rgba(255,255,255,.6)",marginTop:2}}>{(dishes[c.id]||[]).length}가지 요리</div>
               </div>
             </div>
           ))}
