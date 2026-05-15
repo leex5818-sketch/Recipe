@@ -405,9 +405,8 @@ function App(){
               <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
                 <a href={coupangUrl(origName)} target="_blank" rel="noopener noreferrer"
                    onClick={e=>e.stopPropagation()}
-                   style={{flex:1,textDecoration:"none",display:"flex",alignItems:"center",gap:6,minWidth:0}}>
-                  <span style={{fontSize:14,color:"#222",fontWeight:500}}>{ing.n}</span>
-                  <span style={{fontSize:10,color:"#E74C3C",border:"1px solid #FFCCC9",borderRadius:4,padding:"1px 5px",flexShrink:0,background:"#FFF5F5",whiteSpace:"nowrap"}}>쿠팡</span>
+                   style={{fontSize:14,color:"#222",fontWeight:500,textDecoration:"underline",textDecorationColor:"#E74C3C",textUnderlineOffset:"2px",flex:1,minWidth:0}}>
+                  {ing.n}
                 </a>
                 <span style={{fontSize:14,color:accent,fontWeight:700,flexShrink:0,marginLeft:8}}>{ing.a}</span>
               </div>
