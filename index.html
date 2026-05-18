@@ -419,7 +419,8 @@ function App(){
           {disp.ing.map((ing,i)=>{
             const origName=r.ing[i]?.n||ing.n;
             return(
-              <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
+              <React.Fragment key={i}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
                 <a href={coupangUrl(origName)} target="_blank" rel="noopener noreferrer"
                    onClick={e=>e.stopPropagation()}
                    style={{fontSize:14,color:accent,fontWeight:600,textDecoration:"none",flex:1,minWidth:0}}>
@@ -427,9 +428,17 @@ function App(){
                 </a>
                 <span style={{fontSize:14,color:accent,fontWeight:700,flexShrink:0,marginLeft:8}}>{ing.a}</span>
               </div>
+              {origName==="물"&&(
+                <div style={{display:"flex",justifyContent:"center",padding:"12px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:"#FFFDF7"}}
+                  dangerouslySetInnerHTML={{__html:'<iframe src="https://coupa.ng/cmXLpw" width="120" height="240" frameborder="0" scrolling="no" referrerpolicy="unsafe-url" browsingtopics></iframe>'}}/>
+              )}
+              </React.Fragment>
             );
           })}
         </div>
+        <p style={{fontSize:11,color:"#AAA",lineHeight:1.6,marginBottom:20,marginTop:-10}}>
+          이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+        </p>
 
         {/* 조리 순서 */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
