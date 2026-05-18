@@ -226,9 +226,18 @@ function App(){
   const favRecipes=favs.map(id=>allRecipes.find(r=>r.id===id)).filter(Boolean);
   const searchResults=query.trim().length>=1?allDishes.filter(d=>d.name.includes(query.trim())):[];
   const openDish=(d)=>{setCat(d.catId);setDish(d.id);setRecipe(null);setStep(null);setTab("home");};
+  const openDishSmart=(d)=>{
+    const rs=recipes[d.id]||[];
+    setCat(d.catId||cat);setDish(d.id);setStep(null);setTab("home");
+    setRecipe(rs.length===1?rs[0].id:null);
+  };
   const openRecipe=(r)=>{setRecipe(r.id);setStep(null);setTab("home");};
   const goBack=()=>{
-    if(activeRecipe){setRecipe(null);setStep(null);}
+    if(activeRecipe){
+      const single=(recipes[activeRecipe.dishId]||[]).length===1;
+      setRecipe(null);setStep(null);
+      if(single)setDish(null);
+    }
     else if(activeDish)setDish(null);
     else if(activeCat)setCat(null);
   };
@@ -466,7 +475,7 @@ function App(){
           <p style={{fontSize:12,color:"#BBB",marginBottom:14}}>{list.length}가지 요리</p>
           <div style={{background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 1px 4px rgba(0,0,0,.06)"}}>
             {list.map((d,i)=>(
-              <div key={d.id} onClick={()=>setDish(d.id)}
+              <div key={d.id} onClick={()=>openDishSmart(d)}
                 style={{display:"flex",alignItems:"center",padding:"14px 16px",borderBottom:i<list.length-1?"1px solid #F5F5F5":"none",cursor:"pointer",gap:12}}>
                 <div style={{width:4,height:32,borderRadius:2,background:activeCat?.color||"#E8412A",flexShrink:0}}/>
                 <div style={{flex:1,minWidth:0}}>
