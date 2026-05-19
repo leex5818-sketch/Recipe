@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="성원포차"/>
+  <meta name="apple-mobile-web-app-title" content="오늘 뭐먹지"/>
   <meta name="theme-color" content="#ffffff"/>
-  <title>성원포차 레시피</title>
+  <title>오늘 뭐먹지</title>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="icon-192.svg"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -128,14 +128,14 @@ const CAT_GRAD={
 };
 // 검증된 Unsplash CDN ID (200 OK 직접 확인 완료)
 const CAT_PHOTO={
-  1:'1661366394743-fe30fe478ef7', // 한식 - 한국 상차림
-  2:'1569718212165-3a8278d5f624', // 일식 - 라멘
-  3:'1585032226651-759b368d7246', // 중식 - 면 요리
-  4:'1600984177310-c86c8f8fa9c7', // 이유식 - 퓨레
-  5:'1597131628347-c769fc631754', // 양식 - 파스타
-  6:'1679581083578-94eae6e8d7a4', // 분식 - 떡볶이류
-  7:'1533787761082-492a5b83e614', // 베트남 - 쌀국수
-  8:'1628532429788-c35922b5e6c1', // 포차 - 야시장
+  1:'1760228865341-675704c22a5b', // 한식 - 김치찌개
+  2:'1579584425555-c3ce17fd4351', // 일식 - 초밥
+  3:'1579887829114-282b4fa31072', // 중식 - 크림새우
+  4:'1544829832-c8047d6b9d89',    // 이유식
+  5:'1546549032-9571cd6b27df',    // 양식 - 파스타
+  6:'1679581083578-94eae6e8d7a4', // 분식 - 떡볶이
+  7:'1597345637412-9fd611e758f3', // 베트남 - 쌀국수
+  8:'1552912470-ee2e96439539',    // 포차 - 길거리음식
 };
 const LS={
   get:(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}},
@@ -204,7 +204,7 @@ function App(){
 
   if(loading) return(
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",background:"#fff",flexDirection:"column",gap:10}}>
-      <p style={{fontSize:22,fontWeight:700,color:"#111",letterSpacing:-.5}}>성원포차</p>
+      <p style={{fontSize:22,fontWeight:700,color:"#111",letterSpacing:-.5}}>오늘 뭐먹지</p>
       <p style={{fontSize:13,color:"#BBB"}}>레시피 불러오는 중...</p>
     </div>
   );
@@ -777,7 +777,7 @@ function App(){
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <div>
               <h1 style={{fontSize:20,fontWeight:700,color:"#111",letterSpacing:-.5}}>
-                {tab==="search"?"검색":tab==="favs"?"즐겨찾기":tab==="admin"?"관리자":"성원포차"}
+                {tab==="search"?"검색":tab==="favs"?"즐겨찾기":tab==="admin"?"관리자":"오늘 뭐먹지"}
               </h1>
               {tab==="home"&&<p style={{fontSize:12,color:"#C0C0C0",marginTop:1}}>레시피 컬렉션</p>}
             </div>
