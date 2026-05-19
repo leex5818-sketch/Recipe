@@ -1,7 +1,7 @@
 {
-  "name": "성원포차 레시피",
-  "short_name": "성원포차",
-  "description": "성원포차 레시피 앱",
+  "name": "오늘 뭐먹지",
+  "short_name": "오늘 뭐먹지",
+  "description": "오늘 뭐먹지 - 레시피 앱",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#F7F7F9",
