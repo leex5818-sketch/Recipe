@@ -36,9 +36,11 @@ const SB_KEY="sb_publishable_4Fyvj0W8RGpzTHhwcgnzSA_9tAjFQ-0";
 const ADMIN_PW="sungwon2024"; // 관리자 비밀번호 (나중에 변경 가능)
 
 // ── 쿠팡 파트너스 ─────────────────────────────────────────
-// partners.coupang.com 가입 후 마이페이지에서 af_id 확인하여 입력
+// 재료별 추적 딥링크: coupang_links.json 매핑 우선, 없으면 검색 URL 폴백
 const COUPANG_AF_ID = "AF7478113";
+let CL_MAP = {};            // { "재료명": "https://link.coupang.com/a/XXXX" }
 const coupangUrl = (keyword) => {
+  if (CL_MAP && CL_MAP[keyword]) return CL_MAP[keyword];
   const q = encodeURIComponent(keyword);
   if (COUPANG_AF_ID) {
     return `https://www.coupang.com/np/search?q=${q}&sourceType=affiliate&affiliate=Y&subId=recipe&clickTracking=Y&af_id=${COUPANG_AF_ID}`;
@@ -182,11 +184,18 @@ function App(){
   // recipes.json 로드
   const loadDb=React.useCallback(()=>{
     setLoading(true);
-    fetch("./recipes.json")
-      .then(r=>{if(!r.ok)throw new Error("http "+r.status);return r.json();})
-      .then(data=>setDb(data))
-      .catch(()=>setDb(null))
-      .finally(()=>setLoading(false));
+    // 쿠팡 추적 링크 매핑 먼저 로드(없거나 실패해도 검색 링크로 폴백)
+    fetch("./coupang_links.json")
+      .then(r=>r.ok?r.json():{})
+      .then(m=>{CL_MAP=m||{};})
+      .catch(()=>{})
+      .finally(()=>{
+        fetch("./recipes.json")
+          .then(r=>{if(!r.ok)throw new Error("http "+r.status);return r.json();})
+          .then(data=>setDb(data))
+          .catch(()=>setDb(null))
+          .finally(()=>setLoading(false));
+      });
   },[]);
   useEffect(()=>{loadDb();},[loadDb]);
 
@@ -419,8 +428,7 @@ function App(){
           {disp.ing.map((ing,i)=>{
             const origName=r.ing[i]?.n||ing.n;
             return(
-              <React.Fragment key={i}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
+              <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 16px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:i%2===0?"#fff":"#FAFAFA"}}>
                 <a href={coupangUrl(origName)} target="_blank" rel="noopener noreferrer"
                    onClick={e=>e.stopPropagation()}
                    style={{fontSize:14,color:accent,fontWeight:600,textDecoration:"none",flex:1,minWidth:0}}>
@@ -428,11 +436,6 @@ function App(){
                 </a>
                 <span style={{fontSize:14,color:accent,fontWeight:700,flexShrink:0,marginLeft:8}}>{ing.a}</span>
               </div>
-              {origName==="물"&&(
-                <div style={{display:"flex",justifyContent:"center",padding:"12px",borderBottom:i<disp.ing.length-1?"1px solid #F8F8F8":"none",background:"#FFFDF7"}}
-                  dangerouslySetInnerHTML={{__html:'<iframe src="https://coupa.ng/cmXLpw" width="120" height="240" frameborder="0" scrolling="no" referrerpolicy="unsafe-url" browsingtopics></iframe>'}}/>
-              )}
-              </React.Fragment>
             );
           })}
         </div>
