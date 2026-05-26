@@ -2,8 +2,8 @@
 
 ## 앱 개요
 - **앱명**: 오늘 뭐먹지 (PWA)
-- **배포**: https://leex5818-sketch.github.io/Recipe
-- **GitHub**: leex5818-sketch/Recipe (main 브랜치 push → 자동 배포)
+- **배포**: https://recipe-lac-ten.vercel.app (Vercel)
+- **GitHub**: leex5818-sketch/Recipe (main 브랜치 push → Vercel 자동 배포)
 - **Supabase**: edit_requests 테이블 (재료 수정 제안 저장)
 
 ## 데이터 구조 (recipes.json)

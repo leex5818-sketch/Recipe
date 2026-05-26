@@ -2,7 +2,7 @@
 
 오늘의 한 끼를 빠르게 정해주는 레시피 PWA.
 
-**🔗 라이브**: https://leex5818-sketch.github.io/Recipe
+**🔗 라이브**: https://recipe-lac-ten.vercel.app
 
 ## 기능
 
@@ -20,7 +20,7 @@
 - 프론트엔드: Vanilla JS + HTML/CSS (단일 `index.html`)
 - 데이터: `recipes.json` (`{ cats, dishes, recipes }` 구조)
 - 백엔드: Supabase (수정 제안 수집용)
-- 호스팅: GitHub Pages (`main` 브랜치 push → 자동 배포)
+- 호스팅: Vercel (`main` 브랜치 push → 자동 배포, [vercel.json](./vercel.json) 으로 PWA용 헤더 설정)
 
 ## 파일 구조
 
@@ -31,7 +31,7 @@ manifest.json    # PWA 매니페스트
 sw.js            # 서비스 워커 (오프라인 캐시)
 icon-192.svg     # PWA 아이콘
 icon-512.svg
-.nojekyll        # GitHub Pages Jekyll 비활성화
+vercel.json      # Vercel 배포 설정 (PWA 헤더, cleanUrls)
 PROGRESS.md      # 세션 간 진행 상황 추적
 ```
 
