@@ -440,37 +440,77 @@ function App(){
       try{window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");}catch(e){console.error("Kakao.init 실패",e);}
     }
   },[]);
+  // 카카오 OAuth redirect 복귀 처리 (URL에 ?code=… 있으면 토큰 교환 + 사용자 정보 저장)
+  useEffect(()=>{
+    const params=new URLSearchParams(window.location.search);
+    const code=params.get('code');
+    const error=params.get('error');
+    if(error){
+      alert("카카오 로그인 실패: "+(params.get('error_description')||error));
+      window.history.replaceState({},'',window.location.pathname);return;
+    }
+    if(!code)return;
+    (async()=>{
+      try{
+        const tokenRes=await fetch('https://kauth.kakao.com/oauth/token',{
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body:new URLSearchParams({
+            grant_type:'authorization_code',
+            client_id:"35497f25325d1cf8a2435621b8b0dd25",
+            redirect_uri:window.location.origin+"/",
+            code:code
+          })
+        });
+        const tokenData=await tokenRes.json();
+        if(!tokenData.access_token){
+          alert("토큰 교환 실패: "+(tokenData.error_description||tokenData.error||JSON.stringify(tokenData)));
+          window.history.replaceState({},'',window.location.pathname);return;
+        }
+        if(!window.Kakao.isInitialized()) window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");
+        window.Kakao.Auth.setAccessToken(tokenData.access_token);
+        const me=await new Promise((resolve,reject)=>{
+          window.Kakao.API.request({url:'/v2/user/me',success:resolve,fail:reject});
+        });
+        const profile=me.kakao_account?.profile||{};
+        const kakaoUser={
+          kakao_id:String(me.id),
+          nickname:profile.nickname||me.properties?.nickname||'카카오 사용자',
+          profile_image_url:profile.profile_image_url||me.properties?.profile_image||'',
+          thumbnail_image_url:profile.thumbnail_image_url||me.properties?.thumbnail_image||'',
+        };
+        try{
+          await sbFetch('users?on_conflict=kakao_id',{
+            method:'POST',
+            headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},
+            body:JSON.stringify({...kakaoUser,last_login_at:new Date().toISOString()})
+          });
+        }catch(e){console.error("Supabase upsert 실패",e);}
+        setUser(kakaoUser);
+        setWelcomed(true);LS.set("spa_welcomed",true);
+        window.history.replaceState({},'',window.location.pathname);
+      }catch(e){
+        alert("로그인 처리 중 오류: "+(e.message||JSON.stringify(e)));
+        window.history.replaceState({},'',window.location.pathname);
+      }
+    })();
+  },[]);
+  // Kakao SDK 2.x는 Kakao.Auth.login()(popup) deprecated → Kakao.Auth.authorize() redirect만 동작
   const handleKakaoLogin=()=>{
     if(!window.Kakao||!window.Kakao.Auth){
       alert("카카오 SDK 로드 실패. 새로고침 후 다시 시도해주세요.");return;
     }
-    window.Kakao.Auth.login({
-      success:()=>{
-        window.Kakao.API.request({
-          url:'/v2/user/me',
-          success:async(res)=>{
-            const profile=res.kakao_account?.profile||{};
-            const kakaoUser={
-              kakao_id:String(res.id),
-              nickname:profile.nickname||res.properties?.nickname||'카카오 사용자',
-              profile_image_url:profile.profile_image_url||res.properties?.profile_image||'',
-              thumbnail_image_url:profile.thumbnail_image_url||res.properties?.thumbnail_image||'',
-            };
-            try{
-              await sbFetch('users?on_conflict=kakao_id',{
-                method:'POST',
-                headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},
-                body:JSON.stringify({...kakaoUser,last_login_at:new Date().toISOString()})
-              });
-            }catch(e){console.error("Supabase users upsert 실패",e);}
-            setUser(kakaoUser);
-            dismissWelcome();
-          },
-          fail:(err)=>{console.error("카카오 사용자 정보 실패",err);alert("사용자 정보를 가져올 수 없습니다.");}
-        });
-      },
-      fail:(err)=>{console.error("카카오 로그인 실패",err);alert("로그인에 실패했습니다.");}
+    if(!window.Kakao.isInitialized()){
+      try{window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");}
+      catch(e){alert("Kakao.init 실패: "+e.message);return;}
+    }
+    // redirectUri는 카카오 콘솔에 등록된 값과 정확히 일치해야 함
+    window.Kakao.Auth.authorize({
+      redirectUri: window.location.origin + "/",
+      scope: 'profile_nickname,profile_image',
+      throughTalk: false
     });
+    // 이 호출은 페이지 전체를 카카오 로그인으로 redirect. 콜백 없음.
   };
   const handleKakaoLogout=()=>{
     const done=()=>setUser(null);
