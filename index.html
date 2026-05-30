@@ -324,15 +324,23 @@ const DIFF=["","쉬움","보통","보통+","어려움","고급"];
 const LS={get:(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
 const Icon=({name,size=20,color})=>React.createElement('iconify-icon',{icon:name,style:{fontSize:size,color:color||'currentColor',display:'inline-flex'}});
 
-// 한글 IME 안전 입력 (controlled value + composition 가드)
+// 한글 IME 안전 입력 (iOS·데스크탑 양쪽 지원)
+// - value prop을 주지 않고 defaultValue만 → React가 native value를 강제로 덮어쓰지 않음
+// - 외부에서 value 변경 시(예: 모달 열 때 기존 재료 채우기)만 useEffect로 ref 동기화
+// - 포커스 중에는 동기화 건너뜀(IME 조합 중에도 안전)
 const ImeInput=({value,onChange,multi,...rest})=>{
-  const ref=React.useRef(false);
+  const ref=React.useRef(null);
+  React.useEffect(()=>{
+    const el=ref.current;
+    if(el && document.activeElement!==el && el.value!==(value||'')){
+      el.value=value||'';
+    }
+  },[value]);
   const Tag=multi?'textarea':'input';
   return React.createElement(Tag,{
-    value,
-    onCompositionStart:()=>{ref.current=true;},
-    onCompositionEnd:e=>{ref.current=false;onChange(e.target.value);},
-    onChange:e=>{if(!ref.current)onChange(e.target.value);},
+    ref,
+    defaultValue:value,
+    onChange:e=>onChange(e.target.value),
     ...rest
   });
 };
