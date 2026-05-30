@@ -467,11 +467,15 @@ function App(){
           alert("토큰 교환 실패: "+(tokenData.error_description||tokenData.error||JSON.stringify(tokenData)));
           window.history.replaceState({},'',window.location.pathname);return;
         }
-        if(!window.Kakao.isInitialized()) window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");
-        window.Kakao.Auth.setAccessToken(tokenData.access_token);
-        const me=await new Promise((resolve,reject)=>{
-          window.Kakao.API.request({url:'/v2/user/me',success:resolve,fail:reject});
+        // 직접 카카오 API 호출 (SDK 2.x의 Kakao.API.request는 success/fail 옵션 deprecated)
+        const meRes=await fetch('https://kapi.kakao.com/v2/user/me',{
+          headers:{'Authorization':'Bearer '+tokenData.access_token}
         });
+        const me=await meRes.json();
+        if(!me.id){
+          alert("사용자 정보 조회 실패: "+(me.msg||JSON.stringify(me)));
+          window.history.replaceState({},'',window.location.pathname);return;
+        }
         const profile=me.kakao_account?.profile||{};
         const kakaoUser={
           kakao_id:String(me.id),
