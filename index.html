@@ -446,11 +446,10 @@ function App(){
     const code=params.get('code');
     const error=params.get('error');
     if(error){
-      alert("[디버그7] 카카오에서 거부됨: "+(params.get('error_description')||error));
+      alert("카카오에서 거부됨: "+(params.get('error_description')||error));
       window.history.replaceState({},'',window.location.pathname);return;
     }
     if(!code)return;
-    alert("[디버그8] 카카오에서 복귀. code="+code.substring(0,10)+"...\n토큰 교환 시작.");
     (async()=>{
       try{
         const tokenRes=await fetch('https://kauth.kakao.com/oauth/token',{
@@ -465,10 +464,9 @@ function App(){
         });
         const tokenData=await tokenRes.json();
         if(!tokenData.access_token){
-          alert("[디버그9] 토큰 교환 실패: "+(tokenData.error_description||tokenData.error||JSON.stringify(tokenData)));
+          alert("토큰 교환 실패: "+(tokenData.error_description||tokenData.error||JSON.stringify(tokenData)));
           window.history.replaceState({},'',window.location.pathname);return;
         }
-        alert("[디버그10] 토큰 교환 성공. 사용자 정보 조회 중...");
         if(!window.Kakao.isInitialized()) window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");
         window.Kakao.Auth.setAccessToken(tokenData.access_token);
         const me=await new Promise((resolve,reject)=>{
@@ -491,43 +489,24 @@ function App(){
         setUser(kakaoUser);
         setWelcomed(true);LS.set("spa_welcomed",true);
         window.history.replaceState({},'',window.location.pathname);
-        alert("[디버그11] 로그인 완료! "+kakaoUser.nickname);
       }catch(e){
         alert("로그인 처리 중 오류: "+(e.message||JSON.stringify(e)));
         window.history.replaceState({},'',window.location.pathname);
       }
     })();
   },[]);
-  // Kakao SDK 2.x는 Kakao.Auth.login()(popup) deprecated → Kakao.Auth.authorize() redirect만 동작
-  // 디버그 alert: 사용자가 모바일 콘솔 못 보므로 어느 단계서 막혔는지 화면으로 확인용
+  // 카카오 OAuth 인가 요청 - 직접 redirect (SDK authorize() 의존성 제거)
+  // iOS Safari·PWA·구형 브라우저 모두에서 가장 robust한 방식
   const handleKakaoLogin=()=>{
-    if(!window.Kakao){
-      alert("[디버그1] window.Kakao 자체가 없음 - SDK 스크립트 로드 실패");return;
-    }
-    if(!window.Kakao.Auth){
-      alert("[디버그2] window.Kakao.Auth 없음 - SDK 버전 이상");return;
-    }
-    if(!window.Kakao.isInitialized()){
-      try{
-        window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");
-      }catch(e){
-        alert("[디버그3] Kakao.init 실패: "+(e.message||e));return;
-      }
-    }
-    if(!window.Kakao.Auth.authorize){
-      alert("[디버그4] Kakao.Auth.authorize 함수 없음 - SDK 버전 너무 낮음");return;
-    }
-    const redirectUri = window.location.origin + "/";
-    alert("[디버그5] 카카오 로그인 페이지로 이동합니다.\nredirectUri="+redirectUri);
-    try{
-      window.Kakao.Auth.authorize({
-        redirectUri: redirectUri,
-        scope: 'profile_nickname,profile_image',
-        throughTalk: false
-      });
-    }catch(e){
-      alert("[디버그6] authorize 호출 실패: "+(e.message||e));
-    }
+    const params=new URLSearchParams({
+      response_type:'code',
+      client_id:'35497f25325d1cf8a2435621b8b0dd25',
+      redirect_uri:window.location.origin+'/',
+      scope:'profile_nickname,profile_image'
+    });
+    const authUrl='https://kauth.kakao.com/oauth/authorize?'+params.toString();
+    // 페이지 전체를 카카오 로그인으로 이동 (popup 아님, 안전)
+    window.location.href=authUrl;
   };
   const handleKakaoLogout=()=>{
     const done=()=>setUser(null);
