@@ -15,6 +15,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <style>
 :root{
   --bg:#F2F4F6;--card:#FFFFFF;
@@ -257,6 +258,21 @@ a{text-decoration:none;color:inherit}
 .req-btn{flex:1;height:38px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:4px}
 .req-btn.ok{background:var(--success)}
 .req-btn.no{background:var(--danger)}
+/* ── 카카오 로그인 ──────────────────────────── */
+.login-card{background:var(--card);border-radius:var(--radius-lg);padding:24px 20px;margin-bottom:20px;box-shadow:var(--shadow-sm);text-align:center}
+.login-card-title{font-size:16px;font-weight:700;color:var(--text-strong);margin-bottom:6px;letter-spacing:-.02em}
+.login-card-sub{font-size:13px;color:var(--text-sub);margin-bottom:18px;line-height:1.55}
+.kakao-btn{width:100%;height:52px;border-radius:var(--radius);background:#FEE500;color:#191919;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:-.02em;border:none;font-family:inherit}
+.kakao-btn:active{background:#E8D200}
+.profile-card{background:var(--card);border-radius:var(--radius-lg);padding:18px;margin-bottom:20px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px}
+.profile-img{width:52px;height:52px;border-radius:50%;background:var(--bg);object-fit:cover;flex-shrink:0}
+.profile-img-fallback{width:52px;height:52px;border-radius:50%;background:var(--primary-soft);color:var(--primary);font-size:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.profile-text{flex:1;min-width:0}
+.profile-name{font-size:16px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.profile-meta{font-size:12px;color:var(--text-mute);margin-top:2px}
+.logout-btn{font-size:12px;padding:7px 12px;border-radius:var(--radius-pill);background:var(--bg);color:var(--text-sub);font-weight:600;flex-shrink:0}
+.logout-btn:active{background:var(--border)}
+.h-profile{width:32px;height:32px;border-radius:50%;background:var(--bg);object-fit:cover;cursor:pointer}
 </style>
 </head>
 <body>
@@ -379,6 +395,7 @@ function App(){
   const [reviewModal,setReviewModal]=useState(null);
   const [draftStar,setDraftStar]=useState(0);
   const [draftNote,setDraftNote]=useState("");
+  const [user,setUser]=useState(()=>LS.get("spa_user",null));
   const searchRef=useRef(null);
   const composingRef=useRef(false);
 
@@ -406,6 +423,49 @@ function App(){
   },[]);
   useEffect(()=>{LS.set("spa_favs",favs);},[favs]);
   useEffect(()=>{LS.set("spa_ratings",ratings);},[ratings]);
+  useEffect(()=>{LS.set("spa_user",user);},[user]);
+  // Kakao SDK 초기화
+  useEffect(()=>{
+    if(window.Kakao && !window.Kakao.isInitialized()){
+      try{window.Kakao.init("35497f25325d1cf8a2435621b8b0dd25");}catch(e){console.error("Kakao.init 실패",e);}
+    }
+  },[]);
+  const handleKakaoLogin=()=>{
+    if(!window.Kakao||!window.Kakao.Auth){
+      alert("카카오 SDK 로드 실패. 새로고침 후 다시 시도해주세요.");return;
+    }
+    window.Kakao.Auth.login({
+      success:()=>{
+        window.Kakao.API.request({
+          url:'/v2/user/me',
+          success:async(res)=>{
+            const profile=res.kakao_account?.profile||{};
+            const kakaoUser={
+              kakao_id:String(res.id),
+              nickname:profile.nickname||res.properties?.nickname||'카카오 사용자',
+              profile_image_url:profile.profile_image_url||res.properties?.profile_image||'',
+              thumbnail_image_url:profile.thumbnail_image_url||res.properties?.thumbnail_image||'',
+            };
+            try{
+              await sbFetch('users?on_conflict=kakao_id',{
+                method:'POST',
+                headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},
+                body:JSON.stringify({...kakaoUser,last_login_at:new Date().toISOString()})
+              });
+            }catch(e){console.error("Supabase users upsert 실패",e);}
+            setUser(kakaoUser);
+          },
+          fail:(err)=>{console.error("카카오 사용자 정보 실패",err);alert("사용자 정보를 가져올 수 없습니다.");}
+        });
+      },
+      fail:(err)=>{console.error("카카오 로그인 실패",err);alert("로그인에 실패했습니다.");}
+    });
+  };
+  const handleKakaoLogout=()=>{
+    const done=()=>setUser(null);
+    if(window.Kakao?.Auth?.getAccessToken()){window.Kakao.Auth.logout(done);}
+    else{done();}
+  };
 
   if(loading)return(
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",flexDirection:"column",gap:10,background:"var(--card)"}}>
@@ -776,6 +836,27 @@ function App(){
     <div className="fade">
       <h2 className="tab-h-title">즐겨찾기</h2>
       <p className="tab-h-sub">내가 저장한 레시피 모음</p>
+      {!user?(
+        <div className="login-card">
+          <p className="login-card-title">카카오톡으로 로그인</p>
+          <p className="login-card-sub">로그인하면 닉네임·프로필이 표시되고<br/>다른 기기에서도 동기화할 수 있어요</p>
+          <button onClick={handleKakaoLogin} className="kakao-btn">
+            <Icon name="ri:kakao-talk-fill" size={20}/>
+            카카오톡으로 시작하기
+          </button>
+        </div>
+      ):(
+        <div className="profile-card">
+          {user.thumbnail_image_url?
+            <img src={user.thumbnail_image_url} className="profile-img" alt={user.nickname}/>:
+            <div className="profile-img-fallback">👤</div>}
+          <div className="profile-text">
+            <div className="profile-name">{user.nickname||'카카오 사용자'}</div>
+            <div className="profile-meta">카카오 로그인됨</div>
+          </div>
+          <button onClick={handleKakaoLogout} className="logout-btn">로그아웃</button>
+        </div>
+      )}
       {favRecipes.length===0?(
         <div className="empty">
           <div className="empty-emoji">🤍</div>
@@ -892,9 +973,15 @@ function App(){
               <h1 className="h-title">{tab==="search"?"검색":tab==="favs"?"즐겨찾기":tab==="admin"?"관리자":"오늘 뭐먹지"}</h1>
               {tab==="home"&&<p className="h-sub">레시피 컬렉션</p>}
             </div>
-            {tab==="home"&&(
-              <button onClick={()=>setTab("search")} className="h-icon-btn"><Icon name="solar:magnifer-line-duotone" size={20}/></button>
-            )}
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              {user&&(user.thumbnail_image_url?
+                <img src={user.thumbnail_image_url} className="h-profile" alt={user.nickname} onClick={()=>setTab("favs")}/>:
+                <div className="h-profile" style={{display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,cursor:'pointer'}} onClick={()=>setTab("favs")}>👤</div>
+              )}
+              {tab==="home"&&(
+                <button onClick={()=>setTab("search")} className="h-icon-btn"><Icon name="solar:magnifer-line-duotone" size={20}/></button>
+              )}
+            </div>
           </div>
         )}
       </div>
