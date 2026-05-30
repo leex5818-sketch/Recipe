@@ -324,28 +324,27 @@ const DIFF=["","쉬움","보통","보통+","어려움","고급"];
 const LS={get:(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
 const Icon=({name,size=20,color})=>React.createElement('iconify-icon',{icon:name,style:{fontSize:size,color:color||'currentColor',display:'inline-flex'}});
 
-// 한글 IME 안전 입력 (iOS Safari + 데스크탑 양쪽 검증)
-// 핵심: native textarea/input에 IME 조합 전권을 위임하고 React가 절대 간섭하지 않음
-// - React.memo + propsAreEqual=()=>true → 부모 App 리렌더에도 ImeInput은 절대 리렌더 안 함
-//   (매 키 입력 → setState → 부모 리렌더가 iOS WebKit의 IME 세션을 끊는 원인 차단)
-// - defaultValue로 첫 마운트만 초기값 적용, value prop은 이후 무시
-// - 외부 value 변경은 모달 unmount/remount(editModal=null→객체)로 자연스레 해결
-// - setter는 useState가 안정 reference라 stale closure 위험 없음
-// - iOS 자동수정/대문자화 차단 attribute로 부수 케이스 방지
-const ImeInput=React.memo(
-  ({value,onChange,multi,...rest})=>{
-    const Tag=multi?'textarea':'input';
-    return React.createElement(Tag,{
-      defaultValue:value,
-      onChange:e=>onChange(e.target.value),
-      autoComplete:'off',
-      autoCapitalize:'none',
-      autoCorrect:'off',
-      ...rest
-    });
-  },
-  ()=>true  // 항상 같다고 간주 → 절대 리렌더 안 함
-);
+// 한글 IME 안전 입력 — 검색탭에서 이미 검증된 패턴 그대로
+// (line 966~970 <input ref={searchRef} onCompositionStart/End + onInput) 과 동일 구조
+// - value prop 안 줌 (uncontrolled) → React가 native value를 강제 동기화하지 않음
+// - 초기값/외부 변경은 defaultValue로 첫 마운트 시 1회 적용
+//   (모달이 editModal && (...) 조건부라 열 때마다 새로 마운트되어 새 defaultValue 적용)
+// - onCompositionStart/End로 한글 조합 중에는 setState 보류
+// - onInput으로 조합 끝난 뒤·영문 입력 시에만 setState (검색탭과 정확히 동일)
+const ImeInput=({value,onChange,multi,...rest})=>{
+  const composingRef=React.useRef(false);
+  const Tag=multi?'textarea':'input';
+  return React.createElement(Tag,{
+    defaultValue:value,
+    onCompositionStart:()=>{composingRef.current=true;},
+    onCompositionEnd:e=>{composingRef.current=false;onChange(e.target.value);},
+    onInput:e=>{if(!composingRef.current)onChange(e.target.value);},
+    autoComplete:'off',
+    autoCapitalize:'none',
+    autoCorrect:'off',
+    ...rest
+  });
+};
 
 const Stars=({v,onChange,size=18})=>(
   <span className="stars" style={{fontSize:size}}>
