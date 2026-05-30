@@ -273,6 +273,14 @@ a{text-decoration:none;color:inherit}
 .logout-btn{font-size:12px;padding:7px 12px;border-radius:var(--radius-pill);background:var(--bg);color:var(--text-sub);font-weight:600;flex-shrink:0}
 .logout-btn:active{background:var(--border)}
 .h-profile{width:32px;height:32px;border-radius:50%;background:var(--bg);object-fit:cover;cursor:pointer}
+/* ── 환영 화면 (첫 진입) ─────────────────── */
+.welcome{min-height:100vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;max-width:440px;margin:0 auto;text-align:center}
+.welcome-emoji{font-size:72px;margin-bottom:24px;line-height:1}
+.welcome-title{font-size:32px;font-weight:800;color:var(--text-strong);letter-spacing:-.03em;margin-bottom:12px}
+.welcome-sub{font-size:15px;color:var(--text-sub);line-height:1.6;margin-bottom:40px}
+.welcome-kakao{width:100%;max-width:320px}
+.welcome-skip{margin-top:14px;font-size:13px;color:var(--text-mute);padding:10px 16px;background:none}
+.welcome-skip:active{color:var(--text-sub)}
 </style>
 </head>
 <body>
@@ -396,6 +404,8 @@ function App(){
   const [draftStar,setDraftStar]=useState(0);
   const [draftNote,setDraftNote]=useState("");
   const [user,setUser]=useState(()=>LS.get("spa_user",null));
+  const [welcomed,setWelcomed]=useState(()=>LS.get("spa_welcomed",false));
+  const dismissWelcome=()=>{setWelcomed(true);LS.set("spa_welcomed",true);};
   const searchRef=useRef(null);
   const composingRef=useRef(false);
 
@@ -454,6 +464,7 @@ function App(){
               });
             }catch(e){console.error("Supabase users upsert 실패",e);}
             setUser(kakaoUser);
+            dismissWelcome();
           },
           fail:(err)=>{console.error("카카오 사용자 정보 실패",err);alert("사용자 정보를 가져올 수 없습니다.");}
         });
@@ -481,6 +492,20 @@ function App(){
         <p style={{fontSize:13,color:"var(--text-sub)",marginBottom:20}}>네트워크 연결을 확인하고 다시 시도해주세요.</p>
         <button onClick={loadDb} className="btn btn-primary" style={{padding:"12px 28px",flex:"initial"}}>다시 시도</button>
       </div>
+    </div>
+  );
+
+  // 첫 진입 시 환영 화면 (로그인 또는 둘러보기 선택 전까지)
+  if(!user && !welcomed) return(
+    <div className="welcome">
+      <div className="welcome-emoji">🍲</div>
+      <h1 className="welcome-title">오늘 뭐먹지</h1>
+      <p className="welcome-sub">130가지 검증된 레시피<br/>오늘 메뉴를 골라보세요</p>
+      <button onClick={handleKakaoLogin} className="kakao-btn welcome-kakao">
+        <Icon name="ri:kakao-talk-fill" size={20}/>
+        카카오톡으로 시작하기
+      </button>
+      <button onClick={dismissWelcome} className="welcome-skip">로그인 없이 둘러보기</button>
     </div>
   );
 
