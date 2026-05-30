@@ -871,64 +871,9 @@ function App(){
     </div>
   );
 
-  // ── EditModal ──────────────────────────────
-  const EditModal=()=>editModal&&(
-    <div className="scrim" onClick={e=>{if(e.target===e.currentTarget)setEditModal(null);}}>
-      <div className="sheet" onClick={e=>e.stopPropagation()}>
-        <div className="sheet-handle"/>
-        {editDone?(
-          <div className="sheet-done">
-            <div className="sheet-done-emoji">✅</div>
-            <h3 className="sheet-done-title">수정 요청 완료!</h3>
-            <p className="sheet-done-sub">관리자 검토 후 반영됩니다.</p>
-            <button onClick={()=>setEditModal(null)} className="sheet-done-btn">닫기</button>
-          </div>
-        ):(
-          <>
-            <h3 className="sheet-title">재료 수정 제안</h3>
-            <p className="sheet-sub">{editModal.recipe.title}</p>
-            <div className="ref-box">
-              <p className="ref-label">현재 재료</p>
-              {editModal.original.map((ing,i)=><p key={i}>{ing.n}: {ing.a}</p>)}
-            </div>
-            <p className="sheet-label">수정 내용 <span style={{color:"var(--danger)"}}>*</span></p>
-            <ImeInput multi value={editValue} onChange={setEditValue} maxLength={1000}
-              placeholder={"재료명: 양 형식으로 한 줄에 하나씩 작성\n(예시)\n된장: 2큰술\n두부: 1/2모"}
-              className="textarea" style={{height:120,marginBottom:12}}/>
-            <p className="sheet-label">수정 이유 (선택)</p>
-            <ImeInput value={editReason} onChange={setEditReason} maxLength={200}
-              placeholder="예: 분량이 너무 많아요, 재료가 빠졌어요" className="input" style={{marginBottom:editError?8:16}}/>
-            {editError&&<p className="sheet-error">{editError}</p>}
-            <div className="sheet-actions">
-              <button onClick={()=>setEditModal(null)} className="btn btn-secondary">취소</button>
-              <button onClick={submitEdit} disabled={!editValue.trim()||editSending} className="btn btn-primary">
-                {editSending?"전송 중...":"제안 보내기"}
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-
-  // ── ReviewModal ────────────────────────────
-  const ReviewModal=()=>reviewModal&&(
-    <div className="scrim" onClick={e=>{if(e.target===e.currentTarget)setReviewModal(null);}}>
-      <div className="sheet" onClick={e=>e.stopPropagation()}>
-        <div className="sheet-handle"/>
-        <h3 className="sheet-title">레시피 후기 남기기</h3>
-        <p className="sheet-sub">{allRecipes.find(r=>r.id===reviewModal)?.title}</p>
-        <p className="sheet-label">맛 평점</p>
-        <Stars v={draftStar} onChange={setDraftStar} size={32}/>
-        <p className="sheet-label" style={{marginTop:16}}>메모 (선택)</p>
-        <ImeInput multi value={draftNote} onChange={setDraftNote} placeholder="어떤 점이 좋았나요?" className="textarea" style={{height:80}}/>
-        <div className="sheet-actions">
-          <button onClick={()=>setReviewModal(null)} className="btn btn-secondary">취소</button>
-          <button onClick={saveReview} disabled={!draftStar} className="btn btn-primary">저장하기</button>
-        </div>
-      </div>
-    </div>
-  );
+  // EditModal/ReviewModal: App 안 함수형 컴포넌트로 두면 매 setState→리렌더마다
+  // 새 함수 reference로 unmount/remount되며 ImeInput이 새로 마운트되어 한 글자만 입력되고
+  // 커서가 사라짐. → return JSX에 직접 인라인하여 검색탭과 동일한 안정성 확보.
 
   return(
     <div className="app">
@@ -977,8 +922,61 @@ function App(){
       </div>
 
       <NavBar/>
-      <EditModal/>
-      <ReviewModal/>
+      {editModal && (
+        <div className="scrim" onClick={e=>{if(e.target===e.currentTarget)setEditModal(null);}}>
+          <div className="sheet" onClick={e=>e.stopPropagation()}>
+            <div className="sheet-handle"/>
+            {editDone?(
+              <div className="sheet-done">
+                <div className="sheet-done-emoji">✅</div>
+                <h3 className="sheet-done-title">수정 요청 완료!</h3>
+                <p className="sheet-done-sub">관리자 검토 후 반영됩니다.</p>
+                <button onClick={()=>setEditModal(null)} className="sheet-done-btn">닫기</button>
+              </div>
+            ):(
+              <>
+                <h3 className="sheet-title">재료 수정 제안</h3>
+                <p className="sheet-sub">{editModal.recipe.title}</p>
+                <div className="ref-box">
+                  <p className="ref-label">현재 재료</p>
+                  {editModal.original.map((ing,i)=><p key={i}>{ing.n}: {ing.a}</p>)}
+                </div>
+                <p className="sheet-label">수정 내용 <span style={{color:"var(--danger)"}}>*</span></p>
+                <ImeInput multi value={editValue} onChange={setEditValue} maxLength={1000}
+                  placeholder={"재료명: 양 형식으로 한 줄에 하나씩 작성\n(예시)\n된장: 2큰술\n두부: 1/2모"}
+                  className="textarea" style={{height:120,marginBottom:12}}/>
+                <p className="sheet-label">수정 이유 (선택)</p>
+                <ImeInput value={editReason} onChange={setEditReason} maxLength={200}
+                  placeholder="예: 분량이 너무 많아요, 재료가 빠졌어요" className="input" style={{marginBottom:editError?8:16}}/>
+                {editError&&<p className="sheet-error">{editError}</p>}
+                <div className="sheet-actions">
+                  <button onClick={()=>setEditModal(null)} className="btn btn-secondary">취소</button>
+                  <button onClick={submitEdit} disabled={!editValue.trim()||editSending} className="btn btn-primary">
+                    {editSending?"전송 중...":"제안 보내기"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+      {reviewModal && (
+        <div className="scrim" onClick={e=>{if(e.target===e.currentTarget)setReviewModal(null);}}>
+          <div className="sheet" onClick={e=>e.stopPropagation()}>
+            <div className="sheet-handle"/>
+            <h3 className="sheet-title">레시피 후기 남기기</h3>
+            <p className="sheet-sub">{allRecipes.find(r=>r.id===reviewModal)?.title}</p>
+            <p className="sheet-label">맛 평점</p>
+            <Stars v={draftStar} onChange={setDraftStar} size={32}/>
+            <p className="sheet-label" style={{marginTop:16}}>메모 (선택)</p>
+            <ImeInput multi value={draftNote} onChange={setDraftNote} placeholder="어떤 점이 좋았나요?" className="textarea" style={{height:80}}/>
+            <div className="sheet-actions">
+              <button onClick={()=>setReviewModal(null)} className="btn btn-secondary">취소</button>
+              <button onClick={saveReview} disabled={!draftStar} className="btn btn-primary">저장하기</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
