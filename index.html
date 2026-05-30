@@ -324,6 +324,19 @@ const DIFF=["","쉬움","보통","보통+","어려움","고급"];
 const LS={get:(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
 const Icon=({name,size=20,color})=>React.createElement('iconify-icon',{icon:name,style:{fontSize:size,color:color||'currentColor',display:'inline-flex'}});
 
+// 한글 IME 안전 입력 (controlled value + composition 가드)
+const ImeInput=({value,onChange,multi,...rest})=>{
+  const ref=React.useRef(false);
+  const Tag=multi?'textarea':'input';
+  return React.createElement(Tag,{
+    value,
+    onCompositionStart:()=>{ref.current=true;},
+    onCompositionEnd:e=>{ref.current=false;onChange(e.target.value);},
+    onChange:e=>{if(!ref.current)onChange(e.target.value);},
+    ...rest
+  });
+};
+
 const Stars=({v,onChange,size=18})=>(
   <span className="stars" style={{fontSize:size}}>
     {[1,2,3,4,5].map(s=>(
@@ -349,7 +362,8 @@ function App(){
   const [editSending,setEditSending]=useState(false);
   const [editDone,setEditDone]=useState(false);
   const [editError,setEditError]=useState("");
-  const [adminMode,setAdminMode]=useState(false);
+  const [adminUnlocked,setAdminUnlocked]=useState(()=>LS.get("spa_admin_unlock",false));
+  const [adminMode,setAdminMode]=useState(()=>LS.get("spa_admin_unlock",false));
   const [adminPw,setAdminPw]=useState("");
   const [adminRequests,setAdminRequests]=useState([]);
   const [adminLoading,setAdminLoading]=useState(false);
@@ -368,6 +382,19 @@ function App(){
       });
   },[]);
   useEffect(()=>{loadDb();},[loadDb]);
+  // 노트북 unlock: ?admin_setup=KEY → localStorage 저장 + URL 정리
+  useEffect(()=>{
+    try{
+      const u=new URL(window.location.href);
+      if(u.searchParams.get('admin_setup')===ADMIN_PW){
+        LS.set("spa_admin_unlock",true);
+        setAdminUnlocked(true);
+        setAdminMode(true);
+        u.searchParams.delete('admin_setup');
+        window.history.replaceState({},'',u.toString());
+      }
+    }catch{}
+  },[]);
   useEffect(()=>{LS.set("spa_favs",favs);},[favs]);
   useEffect(()=>{LS.set("spa_ratings",ratings);},[ratings]);
 
@@ -824,7 +851,7 @@ function App(){
         {key:"home",label:"홈",icon:"solar:home-2-bold"},
         {key:"search",label:"검색",icon:"solar:magnifer-bold"},
         {key:"favs",label:`즐겨찾기${favs.length>0?` ${favs.length}`:""}`,icon:"solar:heart-bold"},
-        {key:"admin",label:"관리자",icon:"solar:shield-user-bold"},
+        ...(adminUnlocked?[{key:"admin",label:"관리자",icon:"solar:shield-user-bold"}]:[]),
       ].map(n=>(
         <button key={n.key} onClick={()=>{setTab(n.key);if(n.key==="home"){setCat(null);setDish(null);setRecipe(null);setStep(null);}if(n.key==="search")setTimeout(()=>searchRef.current?.focus(),100);}} className={`nav-item ${tab===n.key?'on':''}`}>
           <span className="nav-icon"><Icon name={n.icon} size={22}/></span>
@@ -856,11 +883,11 @@ function App(){
               {editModal.original.map((ing,i)=><p key={i}>{ing.n}: {ing.a}</p>)}
             </div>
             <p className="sheet-label">수정 내용 <span style={{color:"var(--danger)"}}>*</span></p>
-            <textarea value={editValue} onChange={e=>setEditValue(e.target.value)} maxLength={1000}
+            <ImeInput multi value={editValue} onChange={setEditValue} maxLength={1000}
               placeholder={"재료명: 양 형식으로 한 줄에 하나씩 작성\n(예시)\n된장: 2큰술\n두부: 1/2모"}
               className="textarea" style={{height:120,marginBottom:12}}/>
             <p className="sheet-label">수정 이유 (선택)</p>
-            <input value={editReason} onChange={e=>setEditReason(e.target.value)} maxLength={200}
+            <ImeInput value={editReason} onChange={setEditReason} maxLength={200}
               placeholder="예: 분량이 너무 많아요, 재료가 빠졌어요" className="input" style={{marginBottom:editError?8:16}}/>
             {editError&&<p className="sheet-error">{editError}</p>}
             <div className="sheet-actions">
@@ -885,7 +912,7 @@ function App(){
         <p className="sheet-label">맛 평점</p>
         <Stars v={draftStar} onChange={setDraftStar} size={32}/>
         <p className="sheet-label" style={{marginTop:16}}>메모 (선택)</p>
-        <textarea value={draftNote} onChange={e=>setDraftNote(e.target.value)} placeholder="어떤 점이 좋았나요?" className="textarea" style={{height:80}}/>
+        <ImeInput multi value={draftNote} onChange={setDraftNote} placeholder="어떤 점이 좋았나요?" className="textarea" style={{height:80}}/>
         <div className="sheet-actions">
           <button onClick={()=>setReviewModal(null)} className="btn btn-secondary">취소</button>
           <button onClick={saveReview} disabled={!draftStar} className="btn btn-primary">저장하기</button>
