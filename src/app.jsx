@@ -123,9 +123,17 @@ function App(){
   const [trLang,setTrLang]=useState(null);
   const [trData,setTrData]=useState(null);
   const [trLoading,setTrLoading]=useState(false);
+  const [toast,setToast]=useState(null);
   const dismissWelcome=()=>{setWelcomed(true);LS.set("spa_welcomed",true);};
   const searchRef=useRef(null);
   const composingRef=useRef(false);
+  const toastTimer=useRef(null);
+  // 토스트(alert 대체) — 짧은 비차단 피드백
+  const showToast=(msg,type="info")=>{
+    setToast({msg,type});
+    if(toastTimer.current)clearTimeout(toastTimer.current);
+    toastTimer.current=setTimeout(()=>setToast(null),2600);
+  };
 
   const loadDb=React.useCallback(()=>{
     setLoading(true);
@@ -170,7 +178,8 @@ function App(){
     const code=params.get('code');
     const error=params.get('error');
     if(error){
-      alert("카카오에서 거부됨: "+(params.get('error_description')||error));
+      console.error("카카오 거부:",params.get('error_description')||error);
+      showToast("카카오 로그인이 취소됐어요","error");
       window.history.replaceState({},'',window.location.pathname);return;
     }
     if(!code)return;
@@ -188,7 +197,8 @@ function App(){
         });
         const tokenData=await tokenRes.json();
         if(!tokenData.access_token){
-          alert("토큰 교환 실패: "+(tokenData.error_description||tokenData.error||JSON.stringify(tokenData)));
+          console.error("토큰 교환 실패:",tokenData);
+          showToast("로그인에 실패했어요. 다시 시도해주세요","error");
           window.history.replaceState({},'',window.location.pathname);return;
         }
         // 직접 카카오 API 호출 (SDK 2.x의 Kakao.API.request는 success/fail 옵션 deprecated)
@@ -197,7 +207,8 @@ function App(){
         });
         const me=await meRes.json();
         if(!me.id){
-          alert("사용자 정보 조회 실패: "+(me.msg||JSON.stringify(me)));
+          console.error("사용자 정보 조회 실패:",me);
+          showToast("로그인 정보를 가져오지 못했어요","error");
           window.history.replaceState({},'',window.location.pathname);return;
         }
         const profile=me.kakao_account?.profile||{};
@@ -218,7 +229,8 @@ function App(){
         setWelcomed(true);LS.set("spa_welcomed",true);
         window.history.replaceState({},'',window.location.pathname);
       }catch(e){
-        alert("로그인 처리 중 오류: "+(e.message||JSON.stringify(e)));
+        console.error("로그인 처리 오류:",e);
+        showToast("로그인 처리 중 오류가 났어요","error");
         window.history.replaceState({},'',window.location.pathname);
       }
     })();
@@ -286,7 +298,7 @@ function App(){
   const accentC=activeCat?CAT_C(activeCat.id):'var(--primary)';
   const accentS=activeCat?CAT_S(activeCat.id):'var(--primary-soft)';
   const isFav=(id)=>favs.includes(id);
-  const toggleFav=(id)=>setFavs(f=>{const n=f.includes(id)?f.filter(x=>x!==id):[...f,id];LS.set("spa_favs",n);return n;});
+  const toggleFav=(id)=>setFavs(f=>{const adding=!f.includes(id);const n=adding?[...f,id]:f.filter(x=>x!==id);LS.set("spa_favs",n);showToast(adding?"즐겨찾기에 담았어요":"즐겨찾기에서 뺐어요","success");return n;});
   const openReview=(id)=>{const rv=ratings[id];setDraftStar(rv?.star||0);setDraftNote(rv?.note||"");setReviewModal(id);};
   // 번역 핸들러 (App 레벨) — activeRecipe를 캡처. 상태도 App 레벨이라 remount에도 유지됨
   const LANGS=[{code:'en',label:'English'},{code:'ja',label:'日本語'},{code:'zh-CN',label:'中文'}];
@@ -307,7 +319,7 @@ function App(){
     }catch{}
     setTrLoading(false);
   };
-  const saveReview=()=>{const n={...ratings,[reviewModal]:{star:draftStar,note:draftNote}};setRatings(n);LS.set("spa_ratings",n);setReviewModal(null);};
+  const saveReview=()=>{const n={...ratings,[reviewModal]:{star:draftStar,note:draftNote}};setRatings(n);LS.set("spa_ratings",n);setReviewModal(null);showToast("후기를 저장했어요","success");};
   const favRecipes=favs.map(id=>allRecipes.find(r=>r.id===id)).filter(Boolean);
   const searchResults=query.trim().length>=1?allDishes.filter(d=>d.name.includes(query.trim())):[];
   const openDish=(d)=>{setCat(d.catId);setDish(d.id);setRecipe(null);setStep(null);setTab("home");};
@@ -355,9 +367,9 @@ function App(){
   };
 
   const loginAdmin=()=>{
-    if(!ADMIN_PW){alert("관리자 비밀번호가 설정되지 않았습니다 (빌드 환경변수 ADMIN_PW 필요).");return;}
+    if(!ADMIN_PW){showToast("관리자 비밀번호가 설정되지 않았어요 (빌드 env ADMIN_PW)","error");return;}
     if(adminPw===ADMIN_PW){setAdminMode(true);loadAdminRequests();}
-    else alert("비밀번호가 틀렸습니다.");
+    else showToast("비밀번호가 틀렸어요","error");
   };
   const loadAdminRequests=async()=>{
     setAdminLoading(true);
@@ -380,7 +392,12 @@ function App(){
     return(
       <div onClick={()=>openRecipe(r)} className="recipe-card">
         <div className="recipe-bar" style={{background:accentC}}/>
-        <div className="recipe-body">
+        <div className="recipe-row">
+          <div className="recipe-thumb" style={{background:accentS}}>
+            <span>{CAT_EMOJI[activeCat?.id]||'🍴'}</span>
+            <img src={`assets/${r.id}.jpg`} loading="lazy" alt="" onError={e=>{e.currentTarget.style.display='none';}}/>
+          </div>
+          <div className="recipe-body">
           <div className="recipe-head">
             <div style={{flex:1,minWidth:0}}>
               <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
@@ -395,11 +412,12 @@ function App(){
                 {rv&&<Stars v={rv.star} size={13}/>}
               </div>
             </div>
-            <button onClick={e=>{e.stopPropagation();toggleFav(r.id);}} className={`fav-btn ${isFav(r.id)?'on':''}`}>
+            <button onClick={e=>{e.stopPropagation();toggleFav(r.id);}} aria-label={isFav(r.id)?"즐겨찾기 해제":"즐겨찾기 추가"} className={`fav-btn ${isFav(r.id)?'on':''}`}>
               {isFav(r.id)?'❤':'♡'}
             </button>
           </div>
           {rv?.note&&<div className="review-note">📝 {rv.note}</div>}
+          </div>
         </div>
       </div>
     );
@@ -415,6 +433,8 @@ function App(){
     const disp={..._d,ing:Array.isArray(_d.ing)?_d.ing:[],steps:Array.isArray(_d.steps)?_d.steps:[]};
     return(
       <div className="fade">
+        {/* 음식 사진 배너 (assets/{id}.jpg 있으면 표시, 없으면 자동 숨김) */}
+        <img className="detail-photo" src={`assets/${r.id}.jpg`} alt="" loading="lazy" onError={e=>{e.currentTarget.style.display='none';}}/>
         {/* 번역 */}
         <div className="lang-row">
           <span className="lang-lbl">번역</span>
@@ -507,7 +527,7 @@ function App(){
         )}
 
         {/* 즐겨찾기 CTA */}
-        <button onClick={()=>toggleFav(r.id)} className={`fav-cta ${isFav(r.id)?'on':''}`}>
+        <button onClick={()=>toggleFav(r.id)} aria-label={isFav(r.id)?"즐겨찾기 해제":"즐겨찾기 추가"} className={`fav-cta ${isFav(r.id)?'on':''}`}>
           <Icon name={isFav(r.id)?"solar:heart-broken-bold":"solar:heart-bold"} size={18}/>
           {isFav(r.id)?'즐겨찾기 해제':'즐겨찾기 추가'}
         </button>
@@ -736,7 +756,7 @@ function App(){
         {key:"favs",label:`즐겨찾기${favs.length>0?` ${favs.length}`:""}`,icon:"solar:heart-bold"},
         ...(adminUnlocked?[{key:"admin",label:"관리자",icon:"solar:shield-user-bold"}]:[]),
       ].map(n=>(
-        <button key={n.key} onClick={()=>{setTab(n.key);if(n.key==="home"){setCat(null);setDish(null);setRecipe(null);setStep(null);}if(n.key==="search")setTimeout(()=>searchRef.current?.focus(),100);}} className={`nav-item ${tab===n.key?'on':''}`}>
+        <button key={n.key} aria-label={n.label} onClick={()=>{setTab(n.key);if(n.key==="home"){setCat(null);setDish(null);setRecipe(null);setStep(null);}if(n.key==="search")setTimeout(()=>searchRef.current?.focus(),100);}} className={`nav-item ${tab===n.key?'on':''}`}>
           <span className="nav-icon"><Icon name={n.icon} size={22}/></span>
           <span className="nav-label">{n.label}</span>
           <span className="nav-dot"/>
@@ -754,7 +774,7 @@ function App(){
       <div className="header">
         {inNav?(
           <div className="h-nav">
-            <button onClick={goBack} className="h-back"><Icon name="solar:alt-arrow-left-line-duotone" size={22}/></button>
+            <button onClick={goBack} aria-label="뒤로" className="h-back"><Icon name="solar:alt-arrow-left-line-duotone" size={22}/></button>
             <div style={{flex:1,minWidth:0}}>
               <div className="h-crumb">{breadcrumb.join(" › ")}</div>
               <h1 className="h-current">{activeRecipe?activeRecipe.title:activeDish?activeDish.name:activeCat?activeCat.name:""}</h1>
@@ -792,7 +812,7 @@ function App(){
                 onCompositionEnd={e=>{composingRef.current=false;setQuery(e.target.value);}}
                 onInput={e=>{if(!composingRef.current)setQuery(e.target.value);}}
                 placeholder="닭갈비, 감바스, 마라샹궈..." className="search-input"/>
-              {query&&<button onClick={()=>{setQuery("");if(searchRef.current)searchRef.current.value="";}} className="search-clear"><Icon name="solar:close-circle-bold" size={18}/></button>}
+              {query&&<button onClick={()=>{setQuery("");if(searchRef.current)searchRef.current.value="";}} aria-label="검색어 지우기" className="search-clear"><Icon name="solar:close-circle-bold" size={18}/></button>}
             </div>
             <SearchResults/>
           </div>
@@ -801,6 +821,7 @@ function App(){
         {tab==="admin"&&<AdminTab/>}
       </div>
 
+      {toast&&<div className={`toast toast-${toast.type}`} role="status">{toast.msg}</div>}
       <NavBar/>
       {editModal && (
         <div className="scrim" onClick={e=>{if(e.target===e.currentTarget)setEditModal(null);}}>

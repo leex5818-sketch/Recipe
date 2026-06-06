@@ -286,6 +286,53 @@ a{text-decoration:none;color:inherit}
 .welcome-kakao{width:100%;max-width:320px}
 .welcome-skip{margin-top:14px;font-size:13px;color:var(--text-mute);padding:10px 16px;background:none}
 .welcome-skip:active{color:var(--text-sub)}
+
+/* ════════════ Stage 2: 반응형 · 모션 · 이미지 · 토스트 ════════════ */
+
+/* ── 반응형: 태블릿 / PC (모바일은 그대로, 넓은 화면만 확장) ── */
+@media (min-width:768px){
+  .app{max-width:680px}
+  .navbar{max-width:680px;border-radius:18px 18px 0 0;box-shadow:0 -2px 16px rgba(0,0,0,.04)}
+  .cat-grid{grid-template-columns:repeat(3,1fr);gap:16px}
+}
+@media (min-width:1100px){
+  .app{max-width:760px}
+  .navbar{max-width:760px}
+  .cat-grid{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ── 마이크로 인터랙션(누름 피드백) ── */
+.recipe-card,.dish-row{transition:transform .12s ease, box-shadow .15s ease, background .12s ease}
+.recipe-card:active{transform:scale(.985)}
+.cat-card:active{transform:scale(.97)}
+.dish-row:active{transform:scale(.99);background:var(--bg)}
+.btn,.lang-btn,.edit-chip,.review-cta,.source-btn,.fav-cta,.sheet-done-btn{transition:transform .1s ease, background .15s ease, color .15s ease, box-shadow .15s ease}
+.btn:active,.source-btn:active,.fav-cta:active,.sheet-done-btn:active{transform:scale(.97)}
+
+/* ── 터치 타깃 ≥44px (접근성) ── */
+.fav-btn{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.nav-item{min-height:48px;justify-content:center}
+.lang-clear{min-height:30px;display:inline-flex;align-items:center}
+
+/* ── 이미지: 카드 썸네일 (사진 없으면 이모지, assets/{id}.jpg 있으면 자동 표시) ── */
+.recipe-row{display:flex;gap:12px;align-items:flex-start}
+.recipe-row .recipe-body{padding-left:0;flex:1;min-width:0}
+.recipe-thumb{width:58px;height:58px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;position:relative}
+.recipe-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ── 이미지: 상세 배너 (없으면 표시 안 함 — 기존 디자인 유지) ── */
+.detail-photo{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius);margin-bottom:14px;display:block}
+
+/* ── 토스트 (alert 대체) ── */
+.toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:300;max-width:88%;background:rgba(25,31,40,.94);color:#fff;font-size:14px;font-weight:600;padding:12px 18px;border-radius:999px;box-shadow:var(--shadow-lg);animation:toastin .25s cubic-bezier(.2,.8,.2,1);letter-spacing:-.01em;display:flex;align-items:center;gap:8px;white-space:nowrap;max-width:90%}
+.toast-success{background:rgba(0,200,150,.96)}
+.toast-error{background:rgba(240,68,82,.96)}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ── 스켈레톤 로딩 shimmer ── */
+.skel{background:linear-gradient(100deg,var(--bg) 30%,#edf0f3 50%,var(--bg) 70%);background-size:200% 100%;animation:shimmer 1.15s infinite linear;border-radius:10px}
+.skel-card{height:84px;margin-bottom:12px}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
 </style>
   <script defer src="https://web-analytics-steel-one.vercel.app/t.js" data-site="recipe"></script>
 </head>
