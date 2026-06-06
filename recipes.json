@@ -412,11 +412,6 @@
         "e": "🌶️"
       },
       {
-        "id": 3018,
-        "name": "누룽지탕",
-        "e": "🍚"
-      },
-      {
         "id": 3021,
         "name": "짜장면",
         "e": "🍝"
@@ -499,11 +494,6 @@
         "id": 5003,
         "name": "토마토 파스타",
         "e": "🍅"
-      },
-      {
-        "id": 5004,
-        "name": "크림 파스타",
-        "e": "🥛"
       },
       {
         "id": 5005,
@@ -725,7 +715,7 @@
         "source": "https://m.blog.naver.com/endeavor42/224238549203",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 된장찌개 레시피",
         "ing": [
           {
@@ -788,7 +778,7 @@
         "source": "https://www.youtube.com/watch?v=qRa49obXGQE",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 김치찌개 레시피",
         "ing": [
           {
@@ -863,7 +853,7 @@
         "source": "https://www.youtube.com/watch?v=yHAps3twJdI",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "Making simple Korean food의 순두부찌개 레시피",
         "ing": [
           {
@@ -935,7 +925,7 @@
         "source": "https://m.blog.naver.com/lovekimsumi/224264197939",
         "diff": 3,
         "time": 20,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 미역국 레시피",
         "ing": [
           {
@@ -987,7 +977,7 @@
         "source": "https://www.youtube.com/watch?v=9iwaoHo9jV0",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "KBS Entertain의 감자탕 레시피",
         "ing": [
           {
@@ -1063,7 +1053,7 @@
         "source": "https://www.youtube.com/watch?v=eIhsm9ELw4s",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "KBS Entertain의 부대찌개 레시피",
         "ing": [
           {
@@ -1136,7 +1126,7 @@
         "source": "https://www.youtube.com/watch?v=Nw3Lzrh2j_M",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 굴배춧국 레시피",
         "ing": [
           {
@@ -1203,7 +1193,7 @@
         "source": "https://www.youtube.com/watch?v=skYQmnoU3HU",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "KBS Entertain의 오뎅탕 레시피",
         "ing": [
           {
@@ -1255,7 +1245,7 @@
         "source": "https://www.youtube.com/watch?v=YLd78Yqoy9I",
         "diff": 4,
         "time": 10,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "백종원 PAIK JONG WON의 꽃게탕 레시피",
         "ing": [
           {
@@ -1324,7 +1314,7 @@
         "source": "https://www.youtube.com/watch?v=4NGjBL808BY",
         "diff": 3,
         "time": 10,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 비빔밥 레시피",
         "ing": [
           {
@@ -1395,7 +1385,7 @@
         "source": "https://m.blog.naver.com/sky304211/224208612107",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "네이버 블로그의 오므라이스 레시피",
         "ing": [
           {
@@ -1437,7 +1427,7 @@
         "source": "https://www.youtube.com/watch?v=IO6AeSPfJ0Y",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "백종원 PAIK JONG WON의 전복죽 레시피",
         "ing": [
           {
@@ -1507,7 +1497,7 @@
         "source": "https://www.youtube.com/watch?v=eIo2BaE6LxI",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "백종원 PAIK JONG WON의 김치볶음밥 레시피",
         "ing": [
           {
@@ -1573,7 +1563,7 @@
         "source": "https://www.youtube.com/watch?v=DNj3YiaP42s",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "백종원 PAIK JONG WON의 잡채 레시피",
         "ing": [
           {
@@ -1652,7 +1642,7 @@
         "source": "https://www.youtube.com/watch?v=TFVVHvl6Y6E",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "이종임 스타일 채널의 갈비찜 레시피",
         "ing": [
           {
@@ -1724,7 +1714,7 @@
         "source": "https://m.blog.naver.com/mong_zus/224209616598",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "네이버 블로그의 제육볶음 레시피",
         "ing": [
           {
@@ -1795,7 +1785,7 @@
         "source": "https://www.youtube.com/watch?v=86chKdRUVSg",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "Making simple Korean food의 계란찜 레시피",
         "ing": [
           {
@@ -1840,7 +1830,7 @@
         "source": "https://www.youtube.com/watch?v=XOXDWG6Rn3o",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "KBS Entertain의 쭈삼볶음 레시피",
         "ing": [
           {
@@ -1916,7 +1906,7 @@
         "source": "https://www.youtube.com/watch?v=rYiGqPdb0EI",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "김대석 셰프TV의 오리고기 부추볶음 레시피",
         "ing": [
           {
@@ -1959,7 +1949,7 @@
         "source": "https://www.youtube.com/watch?v=yDAzLQfssz4",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 두부김치 레시피",
         "ing": [
           {
@@ -2023,7 +2013,7 @@
         "source": "https://www.youtube.com/watch?v=cWe3FUGT4Fk",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "HAEJUO_Cooking의 바지락술찜 레시피",
         "ing": [
           {
@@ -2082,7 +2072,7 @@
         "source": "https://www.youtube.com/watch?v=SSp1B8UROCo",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "아빠는 식당 사장님의 육회 레시피",
         "ing": [
           {
@@ -2138,7 +2128,7 @@
         "source": "https://www.youtube.com/watch?v=Gq9S0dJ3wHg",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "백종원 PAIK JONG WON의 잔치국수 레시피",
         "ing": [
           {
@@ -2217,7 +2207,7 @@
         "source": "https://www.youtube.com/watch?v=PQY-xJn5u5o",
         "diff": 2,
         "time": 7,
-        "badge": "인기",
+        "badge": "",
         "desc": "자취생존의 비빔국수 레시피",
         "ing": [
           {
@@ -2267,7 +2257,7 @@
         "source": "https://www.youtube.com/watch?v=shWm_irzdpk",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "요알남MingStar의 만두국 레시피",
         "ing": [
           {
@@ -2321,7 +2311,7 @@
         "source": "https://www.youtube.com/watch?v=vt5RqrcDkus",
         "diff": 4,
         "time": 0,
-        "badge": "인기",
+        "badge": "고급",
         "desc": "KBS Entertain의 간장국수 레시피",
         "ing": [
           {
@@ -2375,7 +2365,7 @@
         "source": "https://m.blog.naver.com/jooyeang110/224252950506",
         "diff": 1,
         "time": 50,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "네이버 블로그의 수육 레시피",
         "ing": [
           {
@@ -2419,7 +2409,7 @@
         "source": "https://www.youtube.com/watch?v=-MMX4yC6v3c",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "이종임 스타일 채널의 불고기전골 레시피",
         "ing": [
           {
@@ -2487,7 +2477,7 @@
         "source": "https://www.youtube.com/watch?v=XOIAKr0FdeM",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "A place to find happiness in delicious food의 통삼겹구이 레시피",
         "ing": [
           {
@@ -2551,7 +2541,7 @@
         "source": "https://m.blog.naver.com/handa2006/224265796694",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "네이버 블로그의 닭갈비 레시피",
         "ing": [
           {
@@ -2622,7 +2612,7 @@
         "source": "https://www.youtube.com/watch?v=NpVe0y5cTz0",
         "diff": 1,
         "time": 50,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "PPK  박필관 (피피케이)의 알꼬리·도가니 수육 레시피",
         "ing": [
           {
@@ -2670,7 +2660,7 @@
         "source": "https://m.blog.naver.com/earthfood/224218821595",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 냉수육 레시피",
         "ing": [
           {
@@ -2732,7 +2722,7 @@
         "source": "https://www.youtube.com/watch?v=E7tCGvcsN2Y",
         "diff": 2,
         "time": 6,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 갈비 레시피",
         "ing": [
           {
@@ -2794,7 +2784,7 @@
         "source": "https://www.youtube.com/watch?v=rBw0VdUaMFo",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "후다닥요리의 오이냉국 레시피",
         "ing": [
           {
@@ -2861,7 +2851,7 @@
         "source": "https://www.youtube.com/watch?v=N82hJpl5cMM",
         "diff": 3,
         "time": 15,
-        "badge": "인기",
+        "badge": "",
         "desc": "백종원 PAIK JONG WON의 감자전 레시피",
         "ing": [
           {
@@ -2917,7 +2907,7 @@
         "source": "https://www.youtube.com/watch?v=47OIcvpqxlo",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "백종원 PAIK JONG WON의 김치전 레시피",
         "ing": [
           {
@@ -2978,7 +2968,7 @@
         "source": "https://www.youtube.com/watch?v=iVkFZIp2YCY",
         "diff": 2,
         "time": 15,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 해물파전 레시피",
         "ing": [
           {
@@ -3045,7 +3035,7 @@
         "source": "https://m.blog.naver.com/peace8012/224265344344",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "연어초밥 레시피",
         "ing": [
           {
@@ -3097,7 +3087,7 @@
         "source": "https://www.youtube.com/watch?v=ogefPoIkLTU",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "참치롤 레시피",
         "ing": [
           {
@@ -3161,7 +3151,7 @@
         "source": "https://www.youtube.com/watch?v=93j_rCBf7xs",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "유부초밥 레시피",
         "ing": [
           {
@@ -3233,7 +3223,7 @@
         "source": "https://www.youtube.com/watch?v=DV-BO9xbErU",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "돈코츠 라멘 레시피",
         "ing": [
           {
@@ -3298,7 +3288,7 @@
         "source": "https://www.youtube.com/watch?v=mdfQgInAdLQ",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "쇼유 라멘 레시피",
         "ing": [
           {
@@ -3357,7 +3347,7 @@
         "source": "https://www.youtube.com/watch?v=VamPoaUcJlU",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "우동 레시피",
         "ing": [
           {
@@ -3428,7 +3418,7 @@
         "source": "https://www.youtube.com/watch?v=5wwfOpXnjKU",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "가츠동 레시피",
         "ing": [
           {
@@ -3496,7 +3486,7 @@
         "source": "https://www.youtube.com/watch?v=du9q1BldDHU",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "오야코동 레시피",
         "ing": [
           {
@@ -3567,7 +3557,7 @@
         "source": "https://www.youtube.com/watch?v=-Jz3CR8uUto",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "규동 레시피",
         "ing": [
           {
@@ -3639,7 +3629,7 @@
         "source": "https://www.youtube.com/watch?v=yiWIJxQnmgc",
         "diff": 2,
         "time": 45,
-        "badge": "인기",
+        "badge": "",
         "desc": "차슈덮밥 레시피",
         "ing": [
           {
@@ -3693,7 +3683,7 @@
         "source": "https://www.youtube.com/watch?v=f8rXhCAe1F4",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "버터 오야코동 레시피",
         "ing": [
           {
@@ -3759,7 +3749,7 @@
         "source": "https://www.youtube.com/watch?v=Ezfwypj7RVE",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "새우튀김 레시피",
         "ing": [
           {
@@ -3816,7 +3806,7 @@
         "source": "https://www.youtube.com/watch?v=wfk46tpjjNY",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "야채튀김 레시피",
         "ing": [
           {
@@ -3879,7 +3869,7 @@
         "source": "https://www.youtube.com/watch?v=XOIAKr0FdeM",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "통삼겹장조림 레시피",
         "ing": [
           {
@@ -3930,7 +3920,7 @@
         "source": "https://www.youtube.com/watch?v=lgmpew1fDIo",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "다시마끼 레시피",
         "ing": [
           {
@@ -3974,7 +3964,7 @@
         "source": "https://www.youtube.com/watch?v=pMX5ms6QsAQ",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "미소 항정살구이 레시피",
         "ing": [
           {
@@ -4037,7 +4027,7 @@
         "source": "https://www.youtube.com/watch?v=r0Dmg1PfAlI",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "샤브샤브 레시피",
         "ing": [
           {
@@ -4107,7 +4097,7 @@
         "source": "https://www.youtube.com/watch?v=c7WgKxGsTPc",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "버섯전골 레시피",
         "ing": [
           {
@@ -4187,7 +4177,7 @@
         "source": "https://www.youtube.com/watch?v=GOhjHlBZRZE",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "얼큰하고 부드러운 마파두부 레시피",
         "ing": [
           {
@@ -4261,7 +4251,7 @@
         "source": "https://www.youtube.com/watch?v=cIvE9CcWgVs",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "바삭한 닭튀김에 새콤달콤 깐풍 소스를 입힌 깐풍기 레시피",
         "ing": [
           {
@@ -4336,7 +4326,7 @@
         "source": "https://www.youtube.com/watch?v=e9jHy8AJ4yc",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "겉은 바삭하고 속은 촉촉한 옛날식 탕수육 레시피",
         "ing": [
           {
@@ -4410,7 +4400,7 @@
         "source": "https://www.youtube.com/watch?v=qtv8vXrwn64",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "튀긴 가지에 새콤달콤 어향소스를 끼얹은 어향가지 레시피",
         "ing": [
           {
@@ -4486,7 +4476,7 @@
         "source": "https://www.youtube.com/watch?v=ciRVh34y04g",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "청경채와 새송이버섯을 굴소스에 볶아낸 청경채볶음 레시피",
         "ing": [
           {
@@ -4549,7 +4539,7 @@
         "source": "https://www.youtube.com/watch?v=5UVURwno_jA",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "바삭한 새우튀김을 크림소스에 버무린 크림새우 레시피",
         "ing": [
           {
@@ -4611,7 +4601,7 @@
         "source": "https://www.youtube.com/watch?v=Cec9dAHaSo4",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "매콤달콤한 칠리소스에 새우를 버무린 칠리새우 레시피",
         "ing": [
           {
@@ -4659,7 +4649,7 @@
         "source": "https://www.youtube.com/watch?v=-4c3io4qwQA",
         "diff": 1,
         "time": 8,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "식빵 사이에 새우소를 넣어 튀긴 멘보샤 레시피",
         "ing": [
           {
@@ -4772,7 +4762,7 @@
         "source": "https://www.youtube.com/watch?v=wTCgwUgseRU",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "얼얼한 마라 국물에 다양한 재료를 넣어 끓인 마라탕 레시피",
         "ing": [
           {
@@ -4843,7 +4833,7 @@
         "source": "https://www.youtube.com/watch?v=_qtUZO2fo1U",
         "diff": 3,
         "time": 40,
-        "badge": "인기",
+        "badge": "",
         "desc": "삼겹살을 오래 졸여 부드럽게 완성한 동파육 레시피",
         "ing": [
           {
@@ -4915,7 +4905,7 @@
         "source": "https://www.youtube.com/watch?v=vDdDNH30glw",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "마라소스에 재료를 볶아낸 마라샹궈 레시피",
         "ing": [
           {
@@ -4981,7 +4971,7 @@
         "source": "https://www.youtube.com/watch?v=_3fQZa2hCgg",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "새콤하고 매콤한 산라탕 레시피",
         "ing": [
           {
@@ -5053,7 +5043,7 @@
         "source": "https://www.youtube.com/watch?v=eCMM25vPggg",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "부드러운 계란을 풀어 끓인 계란탕 레시피",
         "ing": [
           {
@@ -5109,7 +5099,7 @@
         "source": "https://www.youtube.com/watch?v=qRsUcSROr10",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "바삭한 누룽지에 해물 소스를 부어 먹는 해물누룽지탕 레시피",
         "ing": [
           {
@@ -5186,77 +5176,6 @@
         "steps": []
       }
     ],
-    "3018": [
-      {
-        "id": 30181,
-        "title": "누룽지탕",
-        "author": "밥상차려주는남자",
-        "source": "https://www.youtube.com/watch?v=qRsUcSROr10",
-        "diff": 2,
-        "time": 0,
-        "badge": "인기",
-        "desc": "바삭한 찹쌀누룽지에 해물 소스를 부어 먹는 누룽지탕 레시피",
-        "ing": [
-          {
-            "n": "모듬해물",
-            "a": "300g"
-          },
-          {
-            "n": "양파",
-            "a": "1/2개"
-          },
-          {
-            "n": "대파",
-            "a": "1대"
-          },
-          {
-            "n": "새송이",
-            "a": "1개"
-          },
-          {
-            "n": "팽이버섯",
-            "a": "50g"
-          },
-          {
-            "n": "파프리카",
-            "a": "1/2개"
-          },
-          {
-            "n": "식용유",
-            "a": "2스푼"
-          },
-          {
-            "n": "다진생강",
-            "a": "1작은술"
-          },
-          {
-            "n": "다진마늘",
-            "a": "1큰술"
-          },
-          {
-            "n": "청주",
-            "a": "3스푼"
-          },
-          {
-            "n": "굴소스",
-            "a": "2스푼"
-          },
-          {
-            "n": "찹쌀누룽지",
-            "a": "200g"
-          }
-        ],
-        "steps": [
-          "냉동 모듬해물 300g을 해동합니다.",
-          "양파, 대파, 새송이, 팽이버섯, 파프리카를 조금씩 썰어 준비합니다.",
-          "웍이나 냄비에 식용유 2스푼과 다진 생강, 다진 마늘, 대파 흰 부분을 넣고 향을 낸 뒤 해동한 해물을 넣어 볶습니다.",
-          "청주 3스푼을 넣고 센 불에 볶아 잡내를 잡습니다.",
-          "썰어 둔 채소와 굴소스 2스푼, 후추를 넣고 더 볶다가 물 200ml를 붓고 끓으면 전분물을 풀어 농도를 맞춥니다.",
-          "소스는 따로 덜어 두고 찹쌀누룽지를 바삭하게 튀깁니다.",
-          "뜨거운 누룽지 위에 준비한 소스를 부어주고 참기름을 한 바퀴 두르면 누룽지탕 완성입니다."
-        ]
-      }
-    ],
     "3021": [
       {
         "id": 30211,
@@ -5265,7 +5184,7 @@
         "source": "https://m.blog.naver.com/howmany70/224259826308",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "춘장을 볶아 만든 옛날식 짜장면 레시피",
         "ing": [
           {
@@ -5321,7 +5240,7 @@
         "source": "https://www.youtube.com/watch?v=DETGYjXASN8",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "해물과 채소를 듬뿍 넣어 끓인 얼큰한 짬뽕 레시피",
         "ing": [
           {
@@ -5394,7 +5313,7 @@
         "source": "https://www.youtube.com/watch?v=mjl4pFQeCxE",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "굴소스로 감칠맛을 낸 해물 볶음우동 레시피",
         "ing": [
           {
@@ -5554,7 +5473,7 @@
         "source": "https://m.blog.naver.com/baby0817/223473457999",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "탄산수와 잔탄검으로 더 바삭하게 튀긴 가지튀김 레시피",
         "ing": [
           {
@@ -5602,7 +5521,7 @@
         "source": "https://www.youtube.com/watch?v=KqpA-y41SbM",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "아봉밥상의 쌀미음 레시피",
         "ing": [
           {
@@ -5656,7 +5575,7 @@
         "source": "https://www.youtube.com/watch?v=sg_8Pg9_ovw",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "레시피라운지의 소고기 야채죽 레시피",
         "ing": [
           {
@@ -5728,7 +5647,7 @@
         "source": "https://www.youtube.com/watch?v=EDTvEEkcR74",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "KBS Entertain의 닭고기 누룽지죽 레시피",
         "ing": [
           {
@@ -5763,7 +5682,7 @@
         "source": "https://www.youtube.com/watch?v=N8VgEamIips",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "Baby Brezza Korea의 소고기 비트감자진밥 레시피",
         "ing": [
           {
@@ -5801,7 +5720,7 @@
         "source": "https://www.youtube.com/watch?v=UKypCXFqC_s",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "오순도순 맘마일기의 연어 야채진밥 레시피",
         "ing": [
           {
@@ -5858,7 +5777,7 @@
         "source": "https://www.youtube.com/watch?v=xsTFsunt6-8",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "백종원 PAIK JONG WON의 소고기 미역국밥 레시피",
         "ing": [
           {
@@ -5908,7 +5827,7 @@
         "source": "https://www.youtube.com/watch?v=qTTaufX7mss",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "정이든채널의 닭가슴살 야채볶음밥 레시피",
         "ing": [
           {
@@ -5985,7 +5904,7 @@
         "source": "https://www.youtube.com/watch?v=ohihzV6Z85k",
         "diff": 3,
         "time": 8,
-        "badge": "인기",
+        "badge": "",
         "desc": "백종원 PAIK JONG WON의 알리오올리오 레시피",
         "ing": [
           {
@@ -6045,7 +5964,7 @@
         "source": "https://www.youtube.com/watch?v=0bnFoRQebq0",
         "diff": 3,
         "time": 6,
-        "badge": "인기",
+        "badge": "",
         "desc": "백종원 PAIK JONG WON의 크림파스타 레시피",
         "ing": [
           {
@@ -6121,7 +6040,7 @@
         "source": "https://www.youtube.com/watch?v=KRgeIrZSPqM",
         "diff": 1,
         "time": 12,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "robynstable의 토마토 파스타 레시피",
         "ing": [
           {
@@ -6169,82 +6088,6 @@
         ]
       }
     ],
-    "5004": [
-      {
-        "id": 50041,
-        "title": "크림 파스타",
-        "author": "백종원 PAIK JONG WON",
-        "source": "https://www.youtube.com/watch?v=0bnFoRQebq0",
-        "diff": 3,
-        "time": 6,
-        "badge": "인기",
-        "desc": "백종원 PAIK JONG WON의 크림 파스타 레시피",
-        "ing": [
-          {
-            "n": "스파게티면",
-            "a": "90g"
-          },
-          {
-            "n": "베이컨",
-            "a": "32g"
-          },
-          {
-            "n": "양파",
-            "a": "1/4개"
-          },
-          {
-            "n": "양송이버섯",
-            "a": "1.5개"
-          },
-          {
-            "n": "버터",
-            "a": "1큰술"
-          },
-          {
-            "n": "우유",
-            "a": "200ml"
-          },
-          {
-            "n": "밀가루",
-            "a": "1큰술"
-          },
-          {
-            "n": "꽃소금",
-            "a": "1/4 작은술"
-          },
-          {
-            "n": "파르메산치즈",
-            "a": "2큰술"
-          },
-          {
-            "n": "후춧가루",
-            "a": "1/4 작은술"
-          },
-          {
-            "n": "파슬리가루",
-            "a": "1 작은술"
-          },
-          {
-            "n": "올리브유",
-            "a": "1큰술"
-          }
-        ],
-        "steps": [
-          "냄비에 정수물, 꽃소금, 올리브유를 넣고 스파게티면 삶을 물을 끓입니다.",
-          "물이 끓어오르면 면을 돌려서 펼쳐 넣고 붙지 않도록 저어주면서 약 6분 정도 삶아 준비합니다.",
-          "삶아진 스파게티면은 체에 밭쳐 건져냅니다.",
-          "베이컨은 두께 1cm 정도로 자르고, 양파는 가로, 세로 0.5cm 정도로 다져 준비합니다.",
-          "양송이 한 개는 가로, 세로 0.5cm 정도로 다지고, 반 개는 두께 0.5cm로 편 썰어 준비합니다.",
-          "프라이팬에 베이컨, 다진 양파, 다진 양송이버섯, 올리브유를 넣고 중불에 볶습니다.",
-          "양파가 노릇해질 때까지 충분히 볶습니다.",
-          "양파에 색이 나면 버터를 넣어 볶고, 버터가 녹으면 우유, 편 썬 양송이버섯, 스파게티면을 넣어 졸입니다.",
-          "밀가루를 넣고 잘 풀어주어 농도를 조절합니다.",
-          "불을 약불로 줄인 후 꽃소금으로 간을 합니다.",
-          "불을 끄고 파르메산치즈를 골고루 뿌려 섞습니다.",
-          "후춧가루를 뿌려준 후 접시에 담고 파슬리가루를 뿌려 완성합니다."
-        ]
-      }
-    ],
     "5005": [
       {
         "id": 50051,
@@ -6253,7 +6096,7 @@
         "source": "https://www.youtube.com/watch?v=aBjJvRXfjZI",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "쭈야공키친JJUYAGONG의 봉골레 레시피",
         "ing": [
           {
@@ -6312,7 +6155,7 @@
         "source": "https://www.youtube.com/watch?v=L_mCc8-k1sU",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "수박한밥상_nolemretaw의 페스토 파스타 레시피",
         "ing": [
           {
@@ -6369,7 +6212,7 @@
         "source": "https://www.youtube.com/watch?v=sq_3FvTOhUg",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "일이삼남매 [123 NAMMAE]의 리조또 레시피",
         "ing": [
           {
@@ -6441,7 +6284,7 @@
         "source": "https://www.youtube.com/watch?v=q-GWwT0iIeM",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "오잡소의 안심 스테이크 레시피",
         "ing": [
           {
@@ -6513,7 +6356,7 @@
         "source": "https://www.youtube.com/watch?v=G8mHaiQh-pY",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "오잡소의 채끝 스테이크 레시피",
         "ing": [
           {
@@ -6581,7 +6424,7 @@
         "source": "https://www.youtube.com/watch?v=RKdvMQAVunQ",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "10000recipes의 시금치 닭다리살 크림 레시피",
         "ing": [
           {
@@ -6643,7 +6486,7 @@
         "source": "https://www.youtube.com/watch?v=xoCE2ejIwnc",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "꿀키honeykki의 풀드포크 레시피",
         "ing": [
           {
@@ -6715,7 +6558,7 @@
         "source": "https://www.youtube.com/watch?v=ZZD1Xx4gK-g",
         "diff": 1,
         "time": 40,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "CalBap-캘리포니아 건강밥상의 미네스트로네 레시피",
         "ing": [
           {
@@ -6768,7 +6611,7 @@
         "source": "https://www.youtube.com/watch?v=qAhi_4kCoJE",
         "diff": 3,
         "time": 35,
-        "badge": "인기",
+        "badge": "",
         "desc": "기능짱의 조리기능사정석 :스타요리커피학원의 시저 샐러드 레시피",
         "ing": [
           {
@@ -6840,7 +6683,7 @@
         "source": "https://www.youtube.com/watch?v=ZGeSaLxl0FY",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "지남쌤 스타일 Jinamssam style의 클램차우더 레시피",
         "ing": [
           {
@@ -6913,7 +6756,7 @@
         "source": "https://www.youtube.com/watch?v=gGBA3T0TnsE",
         "diff": 2,
         "time": 15,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 오믈렛 레시피",
         "ing": [
           {
@@ -6972,7 +6815,7 @@
         "source": "https://www.youtube.com/watch?v=jPxNKwe2qMk",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "아빠의 손맛(dadcooking)의 감자 프리타타 레시피",
         "ing": [
           {
@@ -7041,7 +6884,7 @@
         "source": "https://www.youtube.com/watch?v=-dBPLgpC-tk",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "백종원 PAIK JONG WON의 프렌치토스트 레시피",
         "ing": [
           {
@@ -7101,7 +6944,7 @@
         "source": "https://m.blog.naver.com/dpjantc076/224227094289",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 에그베네딕트 레시피",
         "ing": [
           {
@@ -7149,7 +6992,7 @@
         "source": "https://www.youtube.com/watch?v=4T8Een7OblA",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 감바스 레시피",
         "ing": [
           {
@@ -7199,7 +7042,7 @@
         "source": "https://www.youtube.com/watch?v=xP065rDfTgU",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "이밥차의 연어 세비체 레시피",
         "ing": [
           {
@@ -7328,7 +7171,7 @@
         "source": "https://m.blog.naver.com/tmishaha/224194978644",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 크림관자 레시피",
         "ing": [
           {
@@ -7380,7 +7223,7 @@
         "source": "https://m.blog.naver.com/naettee/224236312613",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 연어포케 레시피",
         "ing": [
           {
@@ -7447,7 +7290,7 @@
         "source": "https://www.youtube.com/watch?v=P_YzpNU1ZUQ",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "Mrs macarons마카롱여사의 뽈뽀 레시피",
         "ing": [
           {
@@ -7514,7 +7357,7 @@
         "source": "https://www.youtube.com/watch?v=jsyAyYVA_kA",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "A place to find happiness in delicious food의 닭날개튀김 레시피",
         "ing": [
           {
@@ -7583,7 +7426,7 @@
         "source": "https://www.youtube.com/watch?v=VoWV4quIn-Y",
         "diff": 3,
         "time": 10,
-        "badge": "인기",
+        "badge": "",
         "desc": "Andsun의 매쉬포테이토 레시피",
         "ing": [
           {
@@ -7643,7 +7486,7 @@
         "source": "https://www.youtube.com/watch?v=uWPF1onSmIc",
         "diff": 3,
         "time": 10,
-        "badge": "인기",
+        "badge": "",
         "desc": "potatomom감자엄마의 치즈 돈까스 레시피",
         "ing": [
           {
@@ -7699,7 +7542,7 @@
         "source": "https://www.youtube.com/watch?v=T-XBpvDof3k",
         "diff": 2,
         "time": 15,
-        "badge": "인기",
+        "badge": "",
         "desc": "comble tv의 까망베르 꿀소금 레시피",
         "ing": [
           {
@@ -7769,7 +7612,7 @@
         "source": "https://www.youtube.com/watch?v=CHYeJTUsmhk",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS Entertain의 타코 레시피",
         "ing": [
           {
@@ -7842,7 +7685,7 @@
         "source": "https://www.youtube.com/watch?v=8bacwXxDkBs",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "레이먼킴의 인생고기 RaymonKim Meat의 퀘사디아 레시피",
         "ing": [
           {
@@ -7897,7 +7740,7 @@
         "source": "https://www.youtube.com/watch?v=XqTTa3khs8w",
         "diff": 3,
         "time": 12,
-        "badge": "인기",
+        "badge": "",
         "desc": "소소한 힐링의 국민 떡볶이 레시피",
         "ing": [
           {
@@ -7967,7 +7810,7 @@
         "source": "https://www.youtube.com/watch?v=ntxYFF32AhQ",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "빅마마 이혜정의 로제 떡볶이 레시피",
         "ing": [
           {
@@ -8046,7 +7889,7 @@
         "source": "https://www.youtube.com/watch?v=G_S_9VWQcAE",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "강쉐프의 간장 떡볶이 레시피",
         "ing": [
           {
@@ -8101,7 +7944,7 @@
         "source": "https://www.youtube.com/watch?v=biz_HZorjsg",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "바삭한 오징어튀김 레시피",
         "ing": [
           {
@@ -8158,7 +8001,7 @@
         "source": "https://www.youtube.com/watch?v=gesnBr3acQ4",
         "diff": 3,
         "time": 15,
-        "badge": "인기",
+        "badge": "",
         "desc": "매콤한 순대볶음 레시피",
         "ing": [
           {
@@ -8232,7 +8075,7 @@
         "source": "https://www.youtube.com/watch?v=N-v4Ul3BnCU",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "별미 비빔라면 레시피",
         "ing": [
           {
@@ -8296,7 +8139,7 @@
         "source": "https://www.youtube.com/watch?v=poPhNmRgyuk",
         "diff": 3,
         "time": 7,
-        "badge": "인기",
+        "badge": "",
         "desc": "얼큰한 부대라면 레시피",
         "ing": [
           {
@@ -8349,7 +8192,7 @@
         "source": "https://www.youtube.com/watch?v=qzBgjrOECoA",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "고소한 참치김밥 레시피",
         "ing": [
           {
@@ -8496,7 +8339,7 @@
         "source": "https://www.youtube.com/watch?v=m-1DZ7LXdCk",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "간단하면서도 깊은 맛이 나는 베트남 쌀국수 레시피",
         "ing": [
           {
@@ -8565,7 +8408,7 @@
         "source": "https://www.youtube.com/watch?v=gJDxWPoMHgo",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "쫄깃한 면과 새우, 채소가 어우러진 팟타이 레시피",
         "ing": [
           {
@@ -8642,7 +8485,7 @@
         "source": "https://www.youtube.com/watch?v=9wZrru0P_00",
         "diff": 3,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "바삭한 면과 짜장 소스를 곁들인 베트남 스테이크 레시피",
         "ing": [
           {
@@ -8713,7 +8556,7 @@
         "source": "https://m.blog.naver.com/kong2_3379/223473235822",
         "diff": 3,
         "time": 7,
-        "badge": "인기",
+        "badge": "",
         "desc": "네이버 블로그의 파타타스 브라바스 레시피",
         "ing": [
           {
@@ -8772,7 +8615,7 @@
         "source": "https://www.youtube.com/watch?v=NPeSkq78wjk",
         "diff": 2,
         "time": 0,
-        "badge": "인기",
+        "badge": "",
         "desc": "KBS의 브리 치즈 구이 레시피",
         "ing": [
           {
@@ -8818,7 +8661,7 @@
         "source": "https://www.youtube.com/watch?v=HH0rUWxuRnQ",
         "diff": 1,
         "time": 0,
-        "badge": "인기",
+        "badge": "간단",
         "desc": "스푼비의 고르곤졸라 꿀 레시피",
         "ing": [
           {

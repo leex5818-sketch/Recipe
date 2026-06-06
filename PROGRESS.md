@@ -15,6 +15,13 @@
 
 ## 완료된 작업
 
+### 2026-06-06 — B(사진)·A(수익화)·C(디테일)
+- [B] **사진 파이프라인**: `scripts/gen_photo_prompts.py`→`docs/photo-prompts.md`(129개 ChatGPT 프롬프트, **recipe id** 기준) + `scripts/place_photos.py`(photos_src/→`assets/{id}.jpg` 리사이즈·리네임, sips/PIL). 앱은 사진 있으면 자동 표시·없으면 이모지 폴백
+- [A] **수익화**: `docs/MONETIZATION.md`(쿠팡 파트너스 가입·**AF_ID 본인확인 경고**·딥링크·현실수익·프리미엄 ₩9,900 설계+토스페이먼츠 Edge Function 개요) + `scripts/top_ingredients.py`(대파53·소금51… 상위 딥링크 우선순위) + `coupang_links.template.json`
+- [C] **디테일**: 복붙 dish 2개 제거(3018 누룽지탕·5004 크림파스타 → 128개) + badge 재산정(블랭킷 '인기' 124 → 간단17/고급9/의미부여) + '130가지' → **동적 카운트(127)** + **재료로 검색**("두부"→된장찌개) + 깨진 추천칩(뱅쇼→갈비찜)
+- 검증: 빌드·헤드리스 부팅·동적카운트·스크린샷·콘솔에러0
+- [ ] 후속(사용자): 사진 생성·쿠팡 가입/AF_ID 교체·프리미엄 결제 구현
+
 ### 2026-06-06 — Stage 2 UX/UI 폴리시 (라이브 배포 완료)
 - [x] **반응형 PC**: @media(768/1100) — .app 680~760px, cat-grid 3~4열, navbar 폭 매칭. "440px 한 줄" 해소
 - [x] **모션**: 카드/칩 누름 스케일 피드백, 스켈레톤 shimmer 유틸

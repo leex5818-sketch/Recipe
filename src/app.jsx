@@ -276,7 +276,7 @@ function App(){
     <div className="welcome">
       <div className="welcome-emoji">🍲</div>
       <h1 className="welcome-title">오늘 뭐먹지</h1>
-      <p className="welcome-sub">130가지 검증된 레시피<br/>오늘 메뉴를 골라보세요</p>
+      <p className="welcome-sub">{Object.values(db.dishes).flat().filter(dd=>(db.recipes[dd.id]||[]).some(r=>Array.isArray(r.steps)&&r.steps.length>0)).length}가지 검증된 레시피<br/>오늘 메뉴를 골라보세요</p>
       <button onClick={handleKakaoLogin} className="kakao-btn welcome-kakao">
         <Icon name="ri:kakao-talk-fill" size={20}/>
         카카오톡으로 시작하기
@@ -321,7 +321,9 @@ function App(){
   };
   const saveReview=()=>{const n={...ratings,[reviewModal]:{star:draftStar,note:draftNote}};setRatings(n);LS.set("spa_ratings",n);setReviewModal(null);showToast("후기를 저장했어요","success");};
   const favRecipes=favs.map(id=>allRecipes.find(r=>r.id===id)).filter(Boolean);
-  const searchResults=query.trim().length>=1?allDishes.filter(d=>d.name.includes(query.trim())):[];
+  // 음식명 + 재료명으로 검색 ("두부" → 된장찌개 등, '냉장고 재료' 검색 lite)
+  const _q=query.trim();
+  const searchResults=_q.length>=1?allDishes.filter(d=>d.name.includes(_q)||(recipes[d.id]||[]).some(r=>(r.ing||[]).some(i=>(i.n||'').includes(_q)))):[];
   const openDish=(d)=>{setCat(d.catId);setDish(d.id);setRecipe(null);setStep(null);setTab("home");};
   const openDishSmart=(d)=>{
     const rs=recipes[d.id]||[];
@@ -635,7 +637,7 @@ function App(){
         <>
           <p className="section-quick">자주 찾는 음식</p>
           <div className="chip-row">
-            {["닭갈비","굴배춧국","바지락술찜","감바스","세비체","뽈뽀","항정살","두부김치","팟타이","까망베르","뱅쇼","크림관자","육회","오므라이스","중화냉면","굴튀김"].map(w=>(
+            {["닭갈비","굴배춧국","바지락술찜","감바스","세비체","뽈뽀","항정살","두부김치","팟타이","까망베르","갈비찜","크림관자","육회","오므라이스","중화냉면","굴튀김"].map(w=>(
               <button key={w} onClick={()=>{setQuery(w);if(searchRef.current)searchRef.current.value=w;}} className="chip">{w}</button>
             ))}
           </div>

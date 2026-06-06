@@ -3,3 +3,4 @@
 *.json.tmp
 node_modules
 app.js
+photos_src
