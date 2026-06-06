@@ -15,6 +15,15 @@
 
 ## 완료된 작업
 
+### 2026-06-06 — Stage 2 UX/UI 폴리시 (라이브 배포 완료)
+- [x] **반응형 PC**: @media(768/1100) — .app 680~760px, cat-grid 3~4열, navbar 폭 매칭. "440px 한 줄" 해소
+- [x] **모션**: 카드/칩 누름 스케일 피드백, 스켈레톤 shimmer 유틸
+- [x] **토스트**: alert() 6곳 → 비차단 토스트(showToast). 즐겨찾기·후기 저장 성공 피드백
+- [x] **이미지 인프라**: 카드 썸네일 + 상세 배너 — `assets/{id}.jpg` 있으면 자동 표시, 없으면 이모지/숨김 폴백(zero 회귀)
+- [x] **접근성**: 아이콘 버튼 aria-label, 터치타깃 ≥44px
+- [x] 로컬 빌드·헤드리스 부팅·모바일/데스크톱 스크린샷 검증 → 배포 → 라이브 byte-identical 확인
+- [ ] **후속(사용자)**: 음식 사진 130장 생성(ChatGPT 무과금) → `assets/{id}.jpg`로 넣으면 자동 표시 / framer-motion은 React 번들 전환 필요해 보류(CSS로 폴리시 달성)
+
 ### 2026-06-06 — 판매가능화 Stage 1 핫픽스 (교차검증 38건 기반)
 교차검증: 53개 에이전트 다관점 검증 → 확정 38건(high 9). 진단 ★2.0 → 목표 ★4.0. 로드맵: `docs/roadmap.html`.
 - [x] **빌드스텝 도입(A안)**: 브라우저 Babel-standalone 제거 → esbuild 사전컴파일(`src/app.jsx`→`app.js` 33.7KB). `build.mjs`/`package.json`/vercel `buildCommand`. 단일 HTML 유지(Next.js 마이그레이션 X)
