@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#3182F6" />
+<title>오늘 뭐먹지 — 판매가능화 로드맵</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<style>
+  :root{
+    --bg:#F2F4F6; --card:#FFFFFF;
+    --text-strong:#191F28; --text:#333D4B; --text-sub:#6B7684; --text-mute:#8B95A1;
+    --primary:#3182F6; --primary-soft:#E8F3FF;
+    --up:#F04452; --warn:#FF9500; --warn-soft:#FFF4E5;
+    --success:#00C896; --success-soft:#E2F8F0;
+    --purple:#7C5CFC; --purple-soft:#EFEBFF;
+    --divider:#E5E8EB;
+    --radius-sm:8px; --radius:16px; --radius-lg:20px; --radius-pill:999px;
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.04);
+    --shadow:0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg:0 30px 60px -20px rgba(0,0,0,0.15);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;letter-spacing:-0.01em}
+  h1{font-size:32px;font-weight:800;color:var(--text-strong);letter-spacing:-0.03em;margin:0}
+  h2{font-size:13px;font-weight:700;color:var(--text-sub);letter-spacing:0.06em;margin:0 0 14px;text-transform:uppercase}
+  h3{font-size:17px;font-weight:700;color:var(--text-strong);letter-spacing:-0.02em;margin:0}
+  p{margin:0;line-height:1.55}
+  iconify-icon{display:inline-block;vertical-align:middle}
+  .container{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
+  .hero{text-align:center;margin-bottom:14px}
+  .hero .sub{color:var(--text-sub);margin-top:10px;font-size:16px}
+
+  .score{display:inline-flex;align-items:center;gap:14px;padding:14px 22px;border-radius:var(--radius-pill);background:#fff;box-shadow:var(--shadow);margin-top:18px}
+  .score .stars{font-size:22px;letter-spacing:2px}
+  .score .now{color:var(--up);font-weight:800}
+  .score .arrow-to{color:var(--text-mute);font-size:20px}
+  .score .goal{color:var(--success);font-weight:800}
+  .score .cap{font-size:12px;color:var(--text-mute);margin-left:4px}
+
+  .diag{max-width:760px;margin:26px auto 40px;background:#fff;border-radius:var(--radius-lg);padding:22px 26px;box-shadow:var(--shadow-sm);text-align:center;color:var(--text-sub);font-size:14.5px;line-height:1.65}
+  .diag b{color:var(--text-strong)}
+  .diag .bad{color:var(--up);font-weight:700}
+
+  .stage{margin-bottom:8px}
+  .stage-head{display:flex;align-items:center;gap:12px;margin:34px 0 16px}
+  .stage-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0}
+  .s1 .stage-num{background:var(--up)} .s2 .stage-num{background:var(--purple)} .s3 .stage-num{background:var(--success)}
+  .stage-head .t{font-size:20px;font-weight:800;color:var(--text-strong);letter-spacing:-0.02em}
+  .stage-head .est{margin-left:auto;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:var(--radius-pill)}
+  .s1 .est{background:#FFE6E9;color:var(--up)} .s2 .est{background:var(--purple-soft);color:var(--purple)} .s3 .est{background:var(--success-soft);color:var(--success)}
+
+  .row{display:grid;gap:14px}
+  .row-3{grid-template-columns:repeat(3,1fr)}
+  .row-4{grid-template-columns:repeat(4,1fr)}
+  .card{background:var(--card);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);transition:transform .15s,box-shadow .15s;border-top:4px solid transparent}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .card.crit{border-top-color:var(--up)} .card.ux{border-top-color:var(--purple)} .card.rev{border-top-color:var(--success)}
+  .card .top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .icon-box{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .ib-up{background:#FFE6E9;color:var(--up)} .ib-purple{background:var(--purple-soft);color:var(--purple)}
+  .ib-success{background:var(--success-soft);color:var(--success)} .ib-warn{background:var(--warn-soft);color:var(--warn)}
+  .card h3{font-size:15.5px}
+  .card .body{color:var(--text-sub);font-size:13px;line-height:1.55;margin-top:4px}
+  .card .tagline{margin-top:11px;padding-top:10px;border-top:1px dashed var(--divider);font-size:11.5px;color:var(--text-mute);font-family:ui-monospace,Menlo,monospace}
+  .pri{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:var(--radius-pill);margin-left:auto}
+  .pri-hi{background:var(--up);color:#fff} .pri-mid{background:var(--warn);color:#fff}
+
+  .gate{display:flex;align-items:center;justify-content:center;gap:10px;margin:18px auto;max-width:680px;padding:13px 20px;border-radius:var(--radius);background:#FFF4E5;color:#B25E00;font-size:13.5px;font-weight:600}
+  .arrow{display:flex;align-items:center;justify-content:center;padding:6px 0;color:var(--text-mute);font-size:26px}
+
+  /* 기술스택 결정 */
+  .decision{margin:46px 0 10px}
+  .dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .dec{border-radius:var(--radius-lg);padding:24px;background:#fff;box-shadow:var(--shadow-sm)}
+  .dec.pick{border:2px solid var(--success);box-shadow:var(--shadow)}
+  .dec.skip{border:1px solid var(--divider);opacity:.92}
+  .dec .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;padding:4px 11px;border-radius:var(--radius-pill);margin-bottom:12px}
+  .badge-pick{background:var(--success-soft);color:var(--success)} .badge-skip{background:#EEF1F4;color:var(--text-sub)}
+  .dec h3{margin-bottom:6px} .dec .lead{font-size:13px;color:var(--text-sub);line-height:1.55;margin-bottom:14px}
+  .dec ul{margin:0;padding-left:18px;font-size:13px;color:var(--text);line-height:1.7}
+  .dec ul.con li{color:var(--text-mute)}
+  .libs{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .lib{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:var(--radius-pill);background:var(--primary-soft);color:var(--primary)}
+
+  /* 다크 치트시트 */
+  .cheat{margin-top:46px;background:#191F28;border-radius:var(--radius-lg);padding:30px 32px;color:#D7DCE3;box-shadow:var(--shadow-lg)}
+  .cheat h2{color:#8B95A1}
+  .cheat .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:6px}
+  .cheat .col .h{display:flex;align-items:center;gap:8px;font-weight:800;color:#fff;font-size:14px;margin-bottom:10px}
+  .cheat .col.now .h iconify-icon{color:var(--up)} .cheat .col.eff .h iconify-icon{color:var(--purple)} .cheat .col.money .h iconify-icon{color:var(--success)}
+  .cheat .col p{font-size:13px;line-height:1.6;color:#AEB6C2}
+  .cheat .col .k{color:#fff;font-weight:700}
+  .cheat .est{display:inline-block;margin-top:9px;font-size:11px;font-family:ui-monospace,Menlo,monospace;color:#6B7684}
+
+  @media(max-width:900px){.row-3,.row-4,.dec-grid,.cheat .grid{grid-template-columns:1fr}}
+  @media(max-width:560px){.container{padding:28px 14px 60px}h1{font-size:25px}.stage-head .t{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>🍳 오늘 뭐먹지 — 판매가능화 로드맵</h1>
+    <p class="sub">53개 에이전트 교차검증 · 확정 이슈 38건 (high 9) · 제품화 4각도 분석 종합</p>
+    <div class="score">
+      <span class="stars now">★★☆☆☆</span>
+      <span class="now">2.0</span>
+      <span class="arrow-to"><iconify-icon icon="lucide:arrow-right"></iconify-icon></span>
+      <span class="stars goal">★★★★☆</span>
+      <span class="goal">4.0</span>
+      <span class="cap">2~3주 / 혼자 · 파트타임</span>
+    </div>
+  </div>
+
+  <div class="diag">
+    텍스트 골격(재료 평균 9.6·단계 8.1·id 무결성 100%)은 <b>견고</b>하지만,
+    아직 "잘 만든 무료 데모"이지 "파는 제품"은 아닙니다.
+    막는 건 <span class="bad">관리자 평문 비번 노출</span> · <span class="bad">사진 0장 · 반응형 0개</span> ·
+    <span class="bad">"오프라인·X분 조리시간" 허위 표기</span>.
+    전부 "기능 부재"가 아니라 <b>"마감 미스"</b>라 단계적으로 메우면 됩니다.
+  </div>
+
+  <!-- STAGE 1 -->
+  <div class="stage s1">
+    <div class="stage-head">
+      <div class="stage-num">1</div>
+      <div class="t">안전 · 성능 기반 다지기</div>
+      <div class="est">약 2~3일 · 판매의 전제</div>
+    </div>
+    <div class="row row-4">
+      <div class="card crit">
+        <div class="top"><div class="icon-box ib-up"><iconify-icon icon="lucide:shield-alert"></iconify-icon></div><span class="pri pri-hi">필수</span></div>
+        <h3>관리자 권한 잠그기</h3>
+        <p class="body">평문 비번 폐기 → Supabase RLS + Edge Function 뒤로. 비번 즉시 교체.</p>
+        <div class="tagline">index.html:295 · :613</div>
+      </div>
+      <div class="card crit">
+        <div class="top"><div class="icon-box ib-up"><iconify-icon icon="lucide:database-zap"></iconify-icon></div><span class="pri pri-hi">필수</span></div>
+        <h3>Supabase RLS 검증</h3>
+        <p class="body">curl로 users PII 덤프 0건 확인 전까지 판매 금지. anon SELECT 차단.</p>
+        <div class="tagline">curl 검증 → 게이트</div>
+      </div>
+      <div class="card crit">
+        <div class="top"><div class="icon-box ib-warn"><iconify-icon icon="lucide:languages"></iconify-icon></div></div>
+        <h3>번역 버그 수정</h3>
+        <p class="body">단계 탭/하트 누르면 번역이 한글로 되돌아감. 컴포넌트 hoist로 해결.</p>
+        <div class="tagline">remount → trData 유실</div>
+      </div>
+      <div class="card crit">
+        <div class="top"><div class="icon-box ib-warn"><iconify-icon icon="lucide:zap"></iconify-icon></div></div>
+        <h3>Babel 제거 (esbuild)</h3>
+        <p class="body">브라우저 런타임 컴파일 → 빌드스텝 사전컴파일. 로딩 즉효.</p>
+        <div class="tagline">index.html:17 · :289</div>
+      </div>
+    </div>
+    <div class="gate"><iconify-icon icon="lucide:lock"></iconify-icon> 게이트: curl로 PII 덤프 0건 확인 전까지 2단계로 진입 금지 + "오프라인"·"X분" 허위 표기 제거</div>
+  </div>
+
+  <div class="arrow"><iconify-icon icon="lucide:chevron-down"></iconify-icon></div>
+
+  <!-- STAGE 2 -->
+  <div class="stage s2">
+    <div class="stage-head">
+      <div class="stage-num">2</div>
+      <div class="t">UX / UI 폴리시</div>
+      <div class="est">약 1주 · 완성도 체감 ↑↑</div>
+    </div>
+    <div class="row row-4">
+      <div class="card ux">
+        <div class="top"><div class="icon-box ib-purple"><iconify-icon icon="lucide:image"></iconify-icon></div><span class="pri pri-hi">ROI 1위</span></div>
+        <h3>음식별 사진 130장</h3>
+        <p class="body">사진 0장 = 구매 차단 1위. img 필드 + lazy + 이모지 폴백. 무과금 ChatGPT 생성.</p>
+        <div class="tagline">작업량 최대 · 2~3일</div>
+      </div>
+      <div class="card ux">
+        <div class="top"><div class="icon-box ib-purple"><iconify-icon icon="lucide:monitor-smartphone"></iconify-icon></div></div>
+        <h3>반응형 PC 대응</h3>
+        <p class="body">@media 0개 → 데스크톱 720~960px, 그리드 3~4열, 하단탭→사이드바.</p>
+        <div class="tagline">@media(min-width:768px)</div>
+      </div>
+      <div class="card ux">
+        <div class="top"><div class="icon-box ib-purple"><iconify-icon icon="lucide:sparkles"></iconify-icon></div></div>
+        <h3>모션 + 피드백</h3>
+        <p class="body">framer-motion 화면전환·바텀시트 + sonner 토스트(alert 3곳 교체).</p>
+        <div class="tagline">토스 물리감 70%</div>
+      </div>
+      <div class="card ux">
+        <div class="top"><div class="icon-box ib-purple"><iconify-icon icon="lucide:accessibility"></iconify-icon></div></div>
+        <h3>접근성 · 데이터 정정</h3>
+        <p class="body">후기 CSS·포커스·aria·44px 터치 + 카드명≠레시피 8건·빈 레시피 정정.</p>
+        <div class="tagline">이유식 오류 우선</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><iconify-icon icon="lucide:chevron-down"></iconify-icon></div>
+
+  <!-- STAGE 3 -->
+  <div class="stage s3">
+    <div class="stage-head">
+      <div class="stage-num">3</div>
+      <div class="t">수익화</div>
+      <div class="est">약 1~2일 · 코드 99% 완성</div>
+    </div>
+    <div class="row row-3">
+      <div class="card rev">
+        <div class="top"><div class="icon-box ib-success"><iconify-icon icon="lucide:shopping-cart"></iconify-icon></div><span class="pri pri-mid">첫 수익</span></div>
+        <h3>쿠팡 파트너스 점등</h3>
+        <p class="body">가입 → 사이트 등록 → coupang_links.json 50개. 막는 건 파일 하나. 리스크 0.</p>
+        <div class="tagline">현실: 트래픽 함수 (월 수천~수만원)</div>
+      </div>
+      <div class="card rev">
+        <div class="top"><div class="icon-box ib-success"><iconify-icon icon="lucide:crown"></iconify-icon></div><span class="pri pri-mid">진짜 수익</span></div>
+        <h3>평생 프리미엄 ₩9,900</h3>
+        <p class="body">식단플래너 + 통합 장보기→쿠팡 일괄담기 + 광고제거. 구독 아닌 일회성.</p>
+        <div class="tagline">baby-weekly-guide 선례</div>
+      </div>
+      <div class="card rev">
+        <div class="top"><div class="icon-box ib-success"><iconify-icon icon="lucide:refrigerator"></iconify-icon></div></div>
+        <h3>냉장고 재료로 검색</h3>
+        <p class="body">fridge-keeper 재고 연계 → "지금 만들 수 있는 요리" 역색인. 두 앱 묶는 차별점.</p>
+        <div class="tagline">ing 정규화 완료 · 즉시 구축</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기술스택 결정 -->
+  <div class="decision">
+    <h2><iconify-icon icon="lucide:git-fork"></iconify-icon> 핵심 질문 — "UI/UX 가다듬는 데 새 기술스택이 필요한가?"</h2>
+    <div class="dec-grid">
+      <div class="dec pick">
+        <span class="badge badge-pick"><iconify-icon icon="lucide:check-circle"></iconify-icon> 추천 · 채택</span>
+        <h3>A. 단일 HTML 유지 + 빌드스텝만</h3>
+        <p class="lead">UI/UX 불만 원인은 "프레임워크 부재"가 아니라 <b>"애니메이션·피드백 라이브러리 부재"</b>. esbuild로 Babel만 걷어내면 끝.</p>
+        <ul>
+          <li>회귀 위험 ≈ 0 · 반나절</li>
+          <li>검증된 IME·카카오·Supabase 그대로</li>
+          <li>로딩 체감 즉시 개선</li>
+        </ul>
+        <div class="libs">
+          <span class="lib">+ esbuild</span>
+          <span class="lib">+ framer-motion</span>
+          <span class="lib">+ sonner</span>
+          <span class="lib" style="background:#EEF1F4;color:#6B7684">— shadcn / redux / form-lib</span>
+        </div>
+      </div>
+      <div class="dec skip">
+        <span class="badge badge-skip"><iconify-icon icon="lucide:x-circle"></iconify-icon> 지금은 과잉</span>
+        <h3>B. Next.js 16 마이그레이션</h3>
+        <p class="lead">SSR이 풀 문제(SEO·대용량·서버상태)가 정적 JSON 130건엔 거의 없음. 검증 끝난 IME·OAuth를 hydration서 전부 재검증해야 함.</p>
+        <ul class="con">
+          <li>23개 중 1개에 며칠 소요</li>
+          <li>IME·카카오 OAuth 재검증 리스크</li>
+          <li>레시피별 공유URL을 매출로 볼 때만 정당화</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 치트시트 -->
+  <div class="cheat">
+    <h2>바로 고를 다음 액션 3개</h2>
+    <div class="grid">
+      <div class="col now">
+        <div class="h"><iconify-icon icon="lucide:siren"></iconify-icon> 가장 급함</div>
+        <p><span class="k">Supabase RLS 검증 + 관리자 비번 교체.</span> curl로 users 덤프 확인. 판매의 전제 조건.</p>
+        <span class="est">~30분</span>
+      </div>
+      <div class="col eff">
+        <div class="h"><iconify-icon icon="lucide:wand-2"></iconify-icon> 가장 효과적</div>
+        <p><span class="k">esbuild + framer-motion + sonner.</span> Babel 제거 + 모션·토스트. 완성도 체감 절반 상승.</p>
+        <span class="est">~하루</span>
+      </div>
+      <div class="col money">
+        <div class="h"><iconify-icon icon="lucide:coins"></iconify-icon> 가장 빠른 돈</div>
+        <p><span class="k">쿠팡 파트너스 가입 + coupang_links.json.</span> 첫 수익 점등. 결제 인프라 불필요.</p>
+        <span class="est">~반나절</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

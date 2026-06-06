@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
-  <rect width="192" height="192" rx="40" fill="#C0392B"/>
-  <text x="96" y="120" font-size="90" text-anchor="middle" font-family="Apple Color Emoji,Segoe UI Emoji,sans-serif">🍶</text>
-  <text x="96" y="168" font-size="22" text-anchor="middle" fill="white" font-family="-apple-system,sans-serif" font-weight="700">성원포차</text>
+  <rect width="192" height="192" rx="40" fill="#FF6B35"/>
+  <text x="96" y="116" font-size="86" text-anchor="middle" font-family="Apple Color Emoji,Segoe UI Emoji,sans-serif">🍲</text>
+  <text x="96" y="166" font-size="24" text-anchor="middle" fill="white" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-weight="800" letter-spacing="-1">오늘 뭐먹지</text>
 </svg>

@@ -1,1 +1,5 @@
 .vercel
+*.bak
+*.json.tmp
+node_modules
+app.js
