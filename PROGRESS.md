@@ -15,6 +15,13 @@
 
 ## 완료된 작업
 
+### 2026-06-06 — 음식 사진 28장 적용 (비전 매칭)
+- 사용자가 생성한 콜라주 타일 39장(`food_png_separate`)을 **비전 에이전트(Workflow)로 1장씩 식별**해 레시피와 매칭
+- 위치 매핑 폐기(타일 순서≠레시피 순서, 콜라주가 일부 음식 누락) → 픽셀 기반 매칭
+- 충돌·오탐 직접 검수: 갈비찜/잔치국수/수육/잡채 중복 제거, 갈비(10471=목살간장)에 소뼈탕 사진 불일치 제외, 애매한 죽 제외
+- **28장 확정** → `assets/{recipe_id}.jpg`(sips jpg 변환). 카드 썸네일·상세 배너·홈 미리보기(mini-dot)에 표시, 없으면 이모지 폴백
+- 나머지 99개는 `docs/photo-prompts.md`로 추가 생성 가능
+
 ### 2026-06-06 — B(사진)·A(수익화)·C(디테일)
 - [B] **사진 파이프라인**: `scripts/gen_photo_prompts.py`→`docs/photo-prompts.md`(129개 ChatGPT 프롬프트, **recipe id** 기준) + `scripts/place_photos.py`(photos_src/→`assets/{id}.jpg` 리사이즈·리네임, sips/PIL). 앱은 사진 있으면 자동 표시·없으면 이모지 폴백
 - [A] **수익화**: `docs/MONETIZATION.md`(쿠팡 파트너스 가입·**AF_ID 본인확인 경고**·딥링크·현실수익·프리미엄 ₩9,900 설계+토스페이먼츠 Edge Function 개요) + `scripts/top_ingredients.py`(대파53·소금51… 상위 딥링크 우선순위) + `coupang_links.template.json`

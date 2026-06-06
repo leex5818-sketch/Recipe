@@ -594,7 +594,10 @@ function App(){
               const cid=d?.catId||1;
               return(
                 <div key={r.id} onClick={()=>openRecipe(r)} className="mini-fav" style={{cursor:'pointer'}}>
-                  <div className="mini-dot" style={{background:CAT_S(cid)}}>{CAT_EMOJI[cid]||'🍽️'}</div>
+                  <div className="mini-dot" style={{background:CAT_S(cid)}}>
+                    <span>{CAT_EMOJI[cid]||'🍽️'}</span>
+                    <img src={`assets/${r.id}.jpg`} loading="lazy" alt="" onError={e=>{e.currentTarget.style.display='none';}}/>
+                  </div>
                   <div className="mini-text">
                     <div className="mini-name">{r.title}</div>
                     <div className="mini-meta">{r.time>0?`${r.time}분`:'-'}</div>
