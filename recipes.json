@@ -22,13 +22,6 @@
       "light": "#FEF3E7"
     },
     {
-      "id": 4,
-      "name": "이유식",
-      "e": "🍼",
-      "color": "#27AE60",
-      "light": "#EAF7EF"
-    },
-    {
       "id": 5,
       "name": "양식",
       "e": "🍝",
@@ -48,6 +41,13 @@
       "e": "🥗",
       "color": "#16A085",
       "light": "#E8F8F5"
+    },
+    {
+      "id": 4,
+      "name": "이유식",
+      "e": "🍼",
+      "color": "#27AE60",
+      "light": "#EAF7EF"
     }
   ],
   "dishes": {
